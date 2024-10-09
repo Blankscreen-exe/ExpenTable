@@ -1,0 +1,101 @@
+[
+  {
+    "id":"id1",
+    "title": "my projects",
+    "priority": 0,
+    "done": true,
+    "days": {
+      "tue": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "fri": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "wed": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "sat": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "sun": {
+        "title": "todo",
+        "allottedTime": 3
+      }
+    }
+  },
+  {
+    "id":"id2",
+    "title": "office tasks",
+    "priority": 0,
+    "done": true,
+    "days": {
+      "mon": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "thu": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "fri": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "sat": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "sun": {
+        "title": "todo",
+        "allottedTime": 3
+      }
+    }
+  },
+  {
+    "id":"id3",
+    "title": "sunday chores",
+    "priority": 0,
+    "done": true,
+    "days": {
+      "mon": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "tue": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "thu": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "fri": {
+        "title": "todo",
+        "allottedTime": 3
+      }
+    }
+  },
+  {
+    "title": "random shit",
+    "priority": 0,
+    "done": true,
+    "days": {
+      "mon": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "tue": {
+        "title": "todo",
+        "allottedTime": 3
+      },
+      "wed": {
+        "title": "todo",
+        "allottedTime": 3
+      }
+    }
+  }
+]
