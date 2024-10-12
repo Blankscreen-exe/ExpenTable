@@ -19,18 +19,6 @@ function Home() {
     const today = new Date().getDay();
 
   return (
-      <div className="container main-container">
-        <div className="header p-5">
-          <div className="content-wrapper">
-            <h1 className="title is-1 has-text-centered">ExpenTable <sub>{pack.version}</sub></h1>
-            <p className="has-text-centered">
-              An expendable time table. Manage your daily schedule with this
-              feature-rich minimalistic timetable app. It storess all data
-              locally so nothing ever leaves your device.
-            </p>
-          </div>
-        </div>
-
         <div className="table-container is-flex is-justify-content-center mr-5 ml-5">
           <table className="table is-striped is-bordered ">
             <thead>
@@ -49,6 +37,7 @@ function Home() {
                         <TaskCountCell value={itemCount[day]}/>
                         {choreList[day].map( (chore, ind) => 
                             (<TaskCell key={ind}
+                                day={day}
                                 value={chore ? chore.title : "-"}
                             />)
                         )}
@@ -68,13 +57,6 @@ function Home() {
             </tfoot>
           </table>
         </div>
-
-        <footer className="footer p-5 mt-5 mx-5">
-          <div className="content-wrapper has-text-centered">
-            <p>&copy; 2024 Timetable App. All Rights Reserved.</p>
-          </div>
-        </footer>
-      </div>
   );
 }
 
