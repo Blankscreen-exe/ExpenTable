@@ -1,4 +1,8 @@
 export default {
+    routes: {
+        home: '/',
+        about: '/about',
+    },
     days: [
         'mon',
         'tue',
