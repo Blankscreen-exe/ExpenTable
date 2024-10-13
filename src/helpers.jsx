@@ -68,3 +68,8 @@ export function getTodayDay() {
     ]
     return days[new Date().getDay()];
 }
+
+export function combineClassNames(...classNames) {
+    // Filter out any falsy values (like empty strings, undefined, null) and join them with a single space
+    return classNames.filter(Boolean).join(' ');
+}

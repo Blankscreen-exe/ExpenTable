@@ -2,6 +2,7 @@ export default {
     routes: {
         home: '/',
         about: '/about',
+        form: '/edit',
     },
     days: [
         'mon',

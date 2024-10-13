@@ -72,3 +72,36 @@ button:focus-visible {
 .overflow-scroll {
   overflow-x: scroll;
 }
+
+/* Cells */
+
+.it-is-today {
+  background-color: rgba(157, 255, 250, 0.117) !important; 
+}
+
+/* Task Priority */
+
+.less-qty-tasks {
+  background-color: rgba(133, 255, 245, 0.2); 
+  border-radius: 5px; 
+  padding: 3px 36px; 
+}
+
+.medium-qty-tasks {
+  background-color: rgba(240, 255, 146, 0.2); 
+  border-radius: 5px; 
+  padding: 3px 36px; 
+}
+
+.high-qty-tasks {
+  background-color: rgba(255, 0, 0, 0.2); 
+  border-radius: 5px; 
+  padding: 3px 36px; 
+}
+
+.tabs-container {
+  margin-bottom: 20px;
+  width: 40%;
+  margin-left:auto;
+  margin-right:auto;
+}
