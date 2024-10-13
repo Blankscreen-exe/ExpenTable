@@ -105,3 +105,21 @@ button:focus-visible {
   margin-left:auto;
   margin-right:auto;
 }
+@media only screen and (max-width: 768px) {
+  .tabs-container {
+    width: 100%;
+  }
+}
+.active {
+  color:var(--bulma-primary) !important;
+  border-bottom-color:var(--bulma-primary) !important;
+}
+
+.about-section-container > div > p {
+  margin-bottom: 10px;
+}
+
+.about-section-container > div > h3 {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
