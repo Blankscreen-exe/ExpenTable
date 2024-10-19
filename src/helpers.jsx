@@ -40,7 +40,8 @@ export function getTableStats(tableData) {
             item.days && (day in item.days) && itemCount[day]++;
             
             // get chores
-            item.days[day] ? choreList[day].push(item.days[day]) : choreList[day].push(null)
+            let task_id = item.id + '_' + day
+            item.days[day] ? choreList[day].push({...item.days[day], task_id}) : choreList[day].push(null)
         })
 
         // appConstants.days.map( (day, ind) => item.days[day] ? choreList[day].push(item.days[day]) : choreList[day].push(null) )

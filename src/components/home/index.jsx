@@ -15,8 +15,19 @@ import AllottedTimeCell from "./cells/AllottedTimeCell";
 function Home() {
     const [taskCategory, setTaskCategory] = useState([]);
     const {itemNames, itemCount, choreList} = getTableStats(tableData);
-
+    const [taskCompleted, setTaskCompleted] = useState({})
     const today = new Date().getDay();
+
+    console.log(taskCompleted)
+
+    const handleTaskDoneChange = (event, task_id) => {
+      setTaskCompleted(prevState => {
+        return {
+        ...prevState,
+        [task_id]:event.target.checked
+        }
+      })
+    }
 
   return (
         <div className="table-container is-flex is-justify-content-center mr-5 ml-5">
@@ -36,10 +47,12 @@ function Home() {
                         <DayCell value={toTitleCase(day)} />
                         <TaskCountCell value={itemCount[day]}/>
                         {choreList[day].map( (chore, ind) => 
-                            (<TaskCell key={ind}
-                                day={day}
-                                value={chore ? chore.title : "-"}
-                            />)
+                          (<TaskCell 
+                              key={ind}
+                              day={day}
+                              value={chore ? chore.title : "-"}
+                              isDone={chore?.task_id && taskCompleted[chore.task_id] ? true : false }
+                          />)
                         )}
                     </tr>)
                 )}
@@ -51,6 +64,15 @@ function Home() {
                 {choreList[getTodayDay()].map( (item, ind) => (
                   <AllottedTimeCell key={ind}
                     value={item ? item.allottedTime : "N/A"}
+                  />
+                ))}
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                {choreList[getTodayDay()].map( (item, ind) => (
+                  <AllottedTimeCell key={ind}
+                    value={item ? <input type="checkbox" onChange={(e) => handleTaskDoneChange(e, item.task_id)} checked={taskCompleted[item.task_id] ? true : false} /> : ""}
                   />
                 ))}
               </tr>
