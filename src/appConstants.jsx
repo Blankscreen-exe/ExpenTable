@@ -12,5 +12,6 @@ export default {
         'fri',
         'sat',
         'sun',
-    ]
+    ],
+    localStorageKey: 'expentable_table_data-123456789'
 }

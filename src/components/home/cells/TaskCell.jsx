@@ -11,11 +11,12 @@ function TaskCell(props) {
 
   let classList = combineClassNames(
     isItToday ? 'has-text-primary it-is-today' : '',
-    isDone ? 'task-done' : ''
+    isDone ? 'task-done' : '',
+    isItToday && !value ? 'task-done' : ''
   )
 
   return (
-    <td className={classList}>{value}</td>
+    <td className={classList}>{value ? value : '-'}</td>
   )
 }
 

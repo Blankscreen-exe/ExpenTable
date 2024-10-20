@@ -3,7 +3,8 @@ import React, {useState} from "react";
 import tableData from '../../data/table.json'
 import pack from '../../../package.json'
 import {toTitleCase, getTableStats, getTodayDay } from "../../helpers";
-import appConstants from "../../appConstants";
+import appConstants from '../../appConstants';
+import {useLocalStorage} from '../../customHooks';
 
 // Components
 import HeaderCell from "./cells/HeaderCell";
@@ -15,8 +16,7 @@ import AllottedTimeCell from "./cells/AllottedTimeCell";
 function Home() {
     const [taskCategory, setTaskCategory] = useState([]);
     const {itemNames, itemCount, choreList} = getTableStats(tableData);
-    const [taskCompleted, setTaskCompleted] = useState({})
-    const today = new Date().getDay();
+    const [taskCompleted, setTaskCompleted] = useLocalStorage(appConstants.localStorageKey, {})
 
     console.log(taskCompleted)
 
@@ -50,7 +50,7 @@ function Home() {
                           (<TaskCell 
                               key={ind}
                               day={day}
-                              value={chore ? chore.title : "-"}
+                              value={chore?.title}
                               isDone={chore?.task_id && taskCompleted[chore.task_id] ? true : false }
                           />)
                         )}
