@@ -24,6 +24,14 @@ Each task you assign
 
 Time table will mark today's day automatically and if you choose to, all the timers of te previous day will be nullified, leaving you with a blank slate.
 
+### Customizations
+
+The app has many customization options such as color themes, data storage lifetime, time unit modifications etc
+
+### Import/Export
+
+Your timetable data along with configurations can be exported and imported by means of a downloadable file.
+
 ## Preview
 
 [coming soon]
