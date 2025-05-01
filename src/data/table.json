@@ -30,7 +30,7 @@
   {
     "id":"id2",
     "title": "office tasks",
-    "priority": 0,
+    "priority": 1,
     "done": true,
     "days": {
       "mon": {
