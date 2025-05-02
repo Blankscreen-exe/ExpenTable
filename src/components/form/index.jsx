@@ -11,9 +11,11 @@ function Form() {
     const [modal, setModal] = useState(false);
     const [selectedCategory, setCategory] = useState(formData[0]);
     const [days, setDays] = useState(selectedCategory.days);
+    const [priorityValue, setPriority] = useState(selectedCategory.priority)
 
     // All days of the week
     const weekDays = appConstants.days;
+    const fullWeekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     // Checks if the category has specific day
     // const checkCategoryDay = (day) => {
@@ -56,7 +58,7 @@ function Form() {
 
     return (
         <div>
-            <form onChange={handleDaysInputChange}>
+            <form>
                 {formData.length ?
                     <div>
                         <div>
@@ -68,9 +70,26 @@ function Form() {
                             </select>
                             <button onClick={() => setModal(true)}>Edit</button>
                             <label htmlFor="priority">Priority:</label>
-                            <input type="number" min={1} max={5} value={selectedCategory.priority} />
+                            <input onChange={(e) => setPriority(e.target.value)} type="number" min={1} max={5} value={priorityValue} />
                         </div>
-                        <div>
+                        {weekDays.map((day, index) => {
+                            return (
+                                <div key={day}>
+                                    <h2>{fullWeekDays[index]}</h2>
+                                    <div>
+                                        <label>
+                                            Title
+                                            <input onChange={handleDaysInputChange} type="text" name={`${day}-title`} id={`${day}-title`} value={days[day]?.title || ""} />
+                                        </label>
+                                        <label>
+                                            Alloted time
+                                            <input onChange={handleDaysInputChange} type="number" step={0.5} name={`${day}-allotedTime`} id={`${day}-alloted-time`} value={days[day]?.allottedTime || ""} />
+                                        </label>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        {/* <div>
                             <div>
                                 <h2>Sunday</h2>
                                 <div>
@@ -162,7 +181,7 @@ function Form() {
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     :
                     <div>
