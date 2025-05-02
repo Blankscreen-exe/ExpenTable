@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocalStorage } from '../../customHooks';
 import Modal from './Modal';
 import tableData from '../../data/table.json';
+import appConstants from '../../appConstants';
 
 function Form() {
     const categoriesKey = "categories";
@@ -10,6 +11,9 @@ function Form() {
     const [modal, setModal] = useState(false);
     const [selectedCategory, setCategory] = useState(formData[0]);
     const [days, setDays] = useState(selectedCategory.days);
+
+    // All days of the week
+    const weekDays = appConstants.days;
 
     // Checks if the category has specific day
     // const checkCategoryDay = (day) => {
@@ -31,8 +35,14 @@ function Form() {
     // Change days state when any input triggers the onChange
     const handleDaysInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(name.slice(0, 3));
-        setDays(prevValue => ({ ...prevValue, [name]: value }));
+        const day = name.slice(0, 3);
+        const property = name.slice(4, name.length);
+
+        if (property === "title") {
+            setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), title: value } }));
+        } else if (property === "allottedTime") {
+            setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), allottedTime: value } }));
+        }
     }
 
     // Days state
@@ -66,11 +76,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="sunTitle" id="sun-title" value={days.sun ? days.sun.title : ""} />
+                                        <input type="text" name="sun-title" id="sun-title" value={days?.sun?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="sunAllottedTime" id="sun-alloted-time" value={days.sun ? days.sun.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="sun-allottedTime" id="sun-alloted-time" value={days?.sun?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
@@ -79,11 +89,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="monTitle" id="mon-title" value={days.mon ? days.mon.title : ""} />
+                                        <input type="text" name="mon-title" id="mon-title" value={days?.mon?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="monAllottedTime" id="mon-alloted-time" value={days.mon ? days.mon.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="mon-allottedTime" id="mon-alloted-time" value={days?.mon?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
@@ -92,11 +102,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="tueTitle" id="tue-title" value={days.tue ? days.tue.title : ""} />
+                                        <input type="text" name="tue-title" id="tue-title" value={days?.tue?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="tueAllottedTime" id="tue-alloted-time" value={days.tue ? days.tue.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="tue-allottedTime" id="tue-alloted-time" value={days?.tue?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
@@ -105,11 +115,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="wedTitle" id="wed-title" value={days.wed ? days.wed.title : ""} />
+                                        <input type="text" name="wed-title" id="wed-title" value={days?.wed?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="wedAllottedTime" id="wed-alloted-time" value={days.wed ? days.wed.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="wed-allottedTime" id="wed-alloted-time" value={days?.wed?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
@@ -118,11 +128,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="thuTitle" id="thu-title" value={days.thu ? days.thu.title : ""} />
+                                        <input type="text" name="thu-title" id="thu-title" value={days?.thu?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="thuAllottedTime" id="thu-alloted-time" value={days.thu ? days.thu.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="thu-allottedTime" id="thu-alloted-time" value={days?.thu?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
@@ -131,11 +141,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="friTitle" id="fri-title" value={days.fri ? days.fri.title : ""} />
+                                        <input type="text" name="fri-title" id="fri-title" value={days?.fri?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="friAllottedTime" id="fri-alloted-time" value={days.fri ? days.fri.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="fri-allottedTime" id="fri-alloted-time" value={days?.fri?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
@@ -144,11 +154,11 @@ function Form() {
                                 <div>
                                     <label>
                                         Title
-                                        <input type="text" name="satTitle" id="sat-title" value={days.sat ? days.sat.title : ""} />
+                                        <input type="text" name="sat-title" id="sat-title" value={days?.sat?.title || ""} />
                                     </label>
                                     <label>
                                         Alloted time
-                                        <input type="number" step={0.5} name="satAllottedTime" id="sat-alloted-time" value={days.sat ? days.sat.allottedTime : ""} />
+                                        <input type="number" step={0.5} name="sat-allottedTime" id="sat-alloted-time" value={days?.sat?.allottedTime || ""} />
                                     </label>
                                 </div>
                             </div>
