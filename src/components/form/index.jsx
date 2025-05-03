@@ -10,8 +10,8 @@ function Form() {
     const formData = tableData;
     const [modal, setModal] = useState(false);
     const [selectedCategory, setCategory] = useState(formData[0]);
-    const [days, setDays] = useState(selectedCategory.days);
-    const [priorityValue, setPriority] = useState(selectedCategory.priority)
+    const [days, setDays] = useState(selectedCategory?.days || {});
+    const [priorityValue, setPriority] = useState(selectedCategory?.priority || "");
 
     // All days of the week
     const weekDays = appConstants.days;
@@ -62,29 +62,67 @@ function Form() {
                 {formData.length ?
                     <div>
                         <div>
-                            <label htmlFor="categories">Category:</label>
-                            <select onChange={handleSelectChange} name="categories" id="categories-dropdown">
-                                {formData.map((item, index) => {
-                                    return (<option value={item.title} key={index}>{item.title}</option>);
-                                })}
-                            </select>
-                            <button onClick={() => setModal(true)}>Edit</button>
-                            <label htmlFor="priority">Priority:</label>
-                            <input onChange={(e) => setPriority(e.target.value)} type="number" min={1} max={5} value={priorityValue} />
+                            <div className='field is-grouped'>
+                                <div className='control'>
+                                    <label htmlFor="categories" className='label'>Category:</label>
+                                </div>
+                                <div className='control select is-success is-outlined'>
+                                    <select onChange={handleSelectChange} name="categories" id="categories-dropdown">
+                                        {formData.map((item, index) => {
+                                            return (<option value={item.title} key={index}>{item.title}</option>);
+                                        })}
+                                    </select>
+                                </div>
+                                <div className='control'>
+                                    <button className='button is-success is-outlined' onClick={() => setModal(true)}>Edit</button>
+                                </div>
+                            </div>
+                            <div className='field is-grouped'>
+                                <div className='control'>
+                                    <label htmlFor="priority" className='label'>Priority:</label>
+                                </div>
+                                <div className="control">
+                                    <input
+                                        onChange={(e) => setPriority(e.target.value)}
+                                        type="number"
+                                        min={1}
+                                        max={5}
+                                        value={priorityValue}
+                                        className='input'
+                                    />
+                                </div>
+                            </div>
                         </div>
                         {weekDays.map((day, index) => {
                             return (
                                 <div key={day}>
                                     <h2>{fullWeekDays[index]}</h2>
-                                    <div>
-                                        <label>
-                                            Title
-                                            <input onChange={handleDaysInputChange} type="text" name={`${day}-title`} id={`${day}-title`} value={days[day]?.title || ""} />
-                                        </label>
-                                        <label>
-                                            Alloted time
-                                            <input onChange={handleDaysInputChange} type="number" step={0.5} name={`${day}-allotedTime`} id={`${day}-alloted-time`} value={days[day]?.allottedTime || ""} />
-                                        </label>
+                                    <div className='field'>
+                                        <label htmlFor={`${day}-title`} className='label'>Title</label>
+                                        <div className="control">
+                                            <input
+                                                onChange={handleDaysInputChange}
+                                                type="text"
+                                                name={`${day}-title`}
+                                                id={`${day}-title`}
+                                                value={days[day]?.title || ""}
+                                                className='input'
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='field'>
+                                        <label htmlFor={`${day}-allotedTime`} className='label'>Alloted time</label>
+                                        <div className="control">
+                                            <input
+                                                onChange={handleDaysInputChange}
+                                                type="number" step={0.5}
+                                                name={`${day}-allotedTime`}
+                                                id={`${day}-alloted-time`}
+                                                value={days[day]?.allottedTime || ""}
+                                                className='input'
+                                            />
+                                        </div>
+                                        <span>* pomodoros</span>
                                     </div>
                                 </div>
                             )
@@ -186,7 +224,7 @@ function Form() {
                     :
                     <div>
                         <h2>You still have no categories created.</h2>
-                        <button onClick={() => setModal(true)}>Create a new category</button>
+                        <button className='button is-success is-outlined' onClick={() => setModal(true)}>Create a new category</button>
                     </div>
                 }
             </form>
