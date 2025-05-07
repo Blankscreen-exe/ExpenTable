@@ -63,66 +63,89 @@ function Form() {
                     <div>
                         <div>
                             <div className='field is-grouped'>
-                                <div className='control'>
-                                    <label htmlFor="categories" className='label'>Category:</label>
+                                <div className="field is-horizontal">
+                                    <div className="field-label is-normal">
+                                        <label htmlFor="categories" className='label'>Category:</label>
+                                    </div>
+                                    <div className="field-body">
+                                        <div className='control select is-primary'>
+                                            <select className='is-radiusless' onChange={handleSelectChange} name="categories" id="categories-dropdown">
+                                                {formData.map((item, index) => {
+                                                    return (<option value={item.title} key={index}>{item.title}</option>);
+                                                })}
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='control select is-success is-outlined'>
-                                    <select onChange={handleSelectChange} name="categories" id="categories-dropdown">
-                                        {formData.map((item, index) => {
-                                            return (<option value={item.title} key={index}>{item.title}</option>);
-                                        })}
-                                    </select>
+                                <div className="field">
+                                    <div className='control'>
+                                        <button 
+                                            className='button is-primary is-radiusless is-outlined' 
+                                            onClick={() => setModal(true)}
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className='control'>
-                                    <button className='button is-success is-outlined' onClick={() => setModal(true)}>Edit</button>
-                                </div>
-                            </div>
-                            <div className='field is-grouped'>
-                                <div className='control'>
-                                    <label htmlFor="priority" className='label'>Priority:</label>
-                                </div>
-                                <div className="control">
-                                    <input
-                                        onChange={(e) => setPriority(e.target.value)}
-                                        type="number"
-                                        min={1}
-                                        max={5}
-                                        value={priorityValue}
-                                        className='input'
-                                    />
+                                <div className="field is-horizontal">
+                                    <div className="field-label is-normal">
+                                        <label htmlFor="priority" className='label'>Priority:</label>
+                                    </div>
+                                    <div className="field-body">
+                                        <div className="control">
+                                            <input
+                                                onChange={(e) => setPriority(e.target.value)}
+                                                type="number"
+                                                min={1}
+                                                max={5}
+                                                value={priorityValue}
+                                                className='input is-primary is-radiusless'
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {weekDays.map((day, index) => {
                             return (
                                 <div key={day}>
-                                    <h2>{fullWeekDays[index]}</h2>
-                                    <div className='field'>
-                                        <label htmlFor={`${day}-title`} className='label'>Title</label>
-                                        <div className="control">
-                                            <input
-                                                onChange={handleDaysInputChange}
-                                                type="text"
-                                                name={`${day}-title`}
-                                                id={`${day}-title`}
-                                                value={days[day]?.title || ""}
-                                                className='input'
-                                            />
+                                    <h2 className='subtitle'>{fullWeekDays[index]}</h2>
+                                    <div className="field is-grouped">
+                                        <div className='field'>
+                                            <div className="field-label">
+                                                <label htmlFor={`${day}-title`} className='label'>Title</label>
+                                            </div>
+                                            <div className="field-body">
+                                                <div className="control">
+                                                    <input
+                                                        onChange={handleDaysInputChange}
+                                                        type="text"
+                                                        name={`${day}-title`}
+                                                        id={`${day}-title`}
+                                                        value={days[day]?.title || ""}
+                                                        className='input is-primary is-radiusless'
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className='field'>
-                                        <label htmlFor={`${day}-allotedTime`} className='label'>Alloted time</label>
-                                        <div className="control">
-                                            <input
-                                                onChange={handleDaysInputChange}
-                                                type="number" step={0.5}
-                                                name={`${day}-allotedTime`}
-                                                id={`${day}-alloted-time`}
-                                                value={days[day]?.allottedTime || ""}
-                                                className='input'
-                                            />
+                                        <div className='field'>
+                                            <div className="field-label">
+                                                <label htmlFor={`${day}-allotedTime`} className='label'>Alloted time</label>
+                                            </div>
+                                            <div className="field-body is-align-items-center">
+                                                <div className="control">
+                                                    <input
+                                                        onChange={handleDaysInputChange}
+                                                        type="number" step={0.5}
+                                                        name={`${day}-allotedTime`}
+                                                        id={`${day}-alloted-time`}
+                                                        value={days[day]?.allottedTime || ""}
+                                                        className='input is-primary is-radiusless'
+                                                    />
+                                                </div>
+                                                <span>* pomodoros</span>
+                                            </div>
                                         </div>
-                                        <span>* pomodoros</span>
                                     </div>
                                 </div>
                             )

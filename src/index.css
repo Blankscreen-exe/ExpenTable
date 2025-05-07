@@ -129,3 +129,8 @@ button:focus-visible {
   background-color: rgba(51, 177, 173, 0.339) !important;
   color: rgb(11, 154, 127) !important;
 }
+
+/* Form */
+.field:not(.is-horizontal) .field-label {
+  text-align: left;
+}
