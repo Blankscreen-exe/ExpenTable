@@ -2,7 +2,7 @@
   {
     "id":"id1",
     "title": "my projects",
-    "priority": 0,
+    "priority": 2,
     "done": true,
     "days": {
       "tue": {

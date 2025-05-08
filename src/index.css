@@ -134,3 +134,8 @@ button:focus-visible {
 .field:not(.is-horizontal) .field-label {
   text-align: left;
 }
+
+.control.has-icons-left .input:focus~.icon,
+.control.has-icons-right .input:focus~.icon {
+  color: rgb(0, 209, 178);
+}
