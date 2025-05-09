@@ -13,8 +13,6 @@ function Form() {
     const [days, setDays] = useState(selectedCategory?.days || {});
     const [priorityValue, setPriority] = useState(selectedCategory?.priority || "");
 
-    console.log(priorityValue);
-
     // All days of the week
     const weekDays = appConstants.days;
     const fullWeekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -42,7 +40,8 @@ function Form() {
         if (property === "title") {
             setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), title: value } }));
         } else if (property === "allottedTime") {
-            setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), allottedTime: value } }));
+            const numValue = parseFloat(value);
+            setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), allottedTime: numValue } }));
         }
     }
 
@@ -59,12 +58,14 @@ function Form() {
                                     </div>
                                     <div className="field-body">
                                         <div className="field has-addons">
-                                            <div className='control select is-primary'>
-                                                <select className='is-radiusless' onChange={handleSelectChange} name="categories" id="categories-dropdown">
-                                                    {formData.map((item, index) => {
-                                                        return (<option value={item.title} key={index}>{item.title}</option>);
-                                                    })}
-                                                </select>
+                                            <div className='control'>
+                                                <div className="select is-primary">
+                                                    <select className='is-radiusless' onChange={handleSelectChange} name="categories" id="categories-dropdown">
+                                                        {formData.map((item, index) => {
+                                                            return (<option value={item.title} key={index}>{item.title}</option>);
+                                                        })}
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div className='control'>
                                                 <button
@@ -83,14 +84,15 @@ function Form() {
                                     </div>
                                     <div className="field-body">
                                         <div className="control">
-                                            <input
-                                                onChange={(e) => setPriority(e.target.value)}
-                                                type="number"
-                                                min={1}
-                                                max={5}
-                                                value={priorityValue}
-                                                className='input is-primary is-radiusless'
-                                            />
+                                            <div className="select is-primary">
+                                                <select name="priority" id="priority" className='is-radiusless' value={priorityValue} onChange={(e) => setPriority(e.target.value)}>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,13 +122,13 @@ function Form() {
                                                 </div>
                                             </div>
                                             <div className='field'>
-                                                <label htmlFor={`${day}-allotedTime`} className='label'>Alloted time</label>
+                                                <label htmlFor={`${day}-allottedTime`} className='label'>Alloted time</label>
                                                 <div className="control has-icons-left">
                                                     <input
                                                         onChange={handleDaysInputChange}
                                                         type="number" step={0.5}
-                                                        name={`${day}-allotedTime`}
-                                                        id={`${day}-alloted-time`}
+                                                        name={`${day}-allottedTime`}
+                                                        id={`${day}-allotted-time`}
                                                         value={days[day]?.allottedTime || ""}
                                                         className='input is-primary is-radiusless'
                                                     />
