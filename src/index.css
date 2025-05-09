@@ -153,3 +153,23 @@ button:focus-visible {
 .allottedTime-input__field {
   width: 8rem;
 }
+
+/* Modal */
+.modal-card {
+  border: 1px solid rgb(0, 209, 178);
+  padding: 2rem;
+  max-width: 34rem;
+}
+
+.subtitle.modal-span {
+  margin-block: 0;
+  margin-right: 1rem;
+}
+
+.select select:not([multiple]) {
+  padding-inline-end: 4.5rem;
+}
+
+.modal-sub {
+  margin-block: 1rem !important;
+}

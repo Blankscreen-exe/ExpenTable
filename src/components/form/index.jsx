@@ -7,7 +7,7 @@ import appConstants from '../../appConstants';
 function Form() {
     const categoriesKey = "categories";
     // const [formData, setFormData] = useLocalStorage(categoriesKey, []);
-    const formData = tableData;
+    const formData = [];
     const [modal, setModal] = useState(false);
     const [selectedCategory, setCategory] = useState(formData[0]);
     const [days, setDays] = useState(selectedCategory?.days || {});
@@ -62,6 +62,7 @@ function Form() {
                                         </div>
                                         <div className='control'>
                                             <button
+                                                type='button'
                                                 className='button is-primary is-radiusless is-outlined'
                                                 onClick={() => setModal(true)}
                                             >
@@ -139,11 +140,11 @@ function Form() {
                     :
                     <div className='is-flex is-flex-direction-column is-align-items-center'>
                         <h2 className='subtitle'>You still have no categories created.</h2>
-                        <button className='button is-primary is-outlined' onClick={() => setModal(true)}>Create a new category</button>
+                        <button type='button' className='button is-primary is-outlined is-radiusless' onClick={() => setModal(true)}>Create a new category</button>
                     </div>
                 }
             </div>
-            {modal && <Modal />}
+            <Modal />
         </section>
     )
 }
