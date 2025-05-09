@@ -7,7 +7,7 @@ import appConstants from '../../appConstants';
 function Form() {
     const categoriesKey = "categories";
     // const [formData, setFormData] = useLocalStorage(categoriesKey, []);
-    const formData = [];
+    const formData = tableData;
     const [modal, setModal] = useState(false);
     const [selectedCategory, setCategory] = useState(formData[0]);
     const [days, setDays] = useState(selectedCategory?.days || {});
@@ -40,7 +40,8 @@ function Form() {
     }
 
     return (
-        <section>
+        <section style={{ paddingInline: "2rem", position: "relative"}}>
+            <div className={`modal-overlay ${modal ? "open" : ""}`}/>
             <div className='is-flex is-flex-direction-column is-align-items-center'>
                 {formData.length ?
                     <form className='form'>
@@ -144,7 +145,7 @@ function Form() {
                     </div>
                 }
             </div>
-            <Modal />
+            {modal && <Modal />}
         </section>
     )
 }
