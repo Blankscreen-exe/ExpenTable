@@ -131,6 +131,12 @@ button:focus-visible {
 }
 
 /* Form */
+.form {
+  border: 1px solid rgb(0, 209, 178);
+  padding: 2rem;
+  margin-inline: 1rem;
+}
+
 .field:not(.is-horizontal) .field-label {
   text-align: left;
 }
@@ -138,4 +144,12 @@ button:focus-visible {
 .control.has-icons-left .input:focus~.icon,
 .control.has-icons-right .input:focus~.icon {
   color: rgb(0, 209, 178);
+}
+
+.title-input__field {
+  flex-grow: 1;
+}
+
+.allottedTime-input__field {
+  width: 8rem;
 }

@@ -17,12 +17,6 @@ function Form() {
     const weekDays = appConstants.days;
     const fullWeekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    // Styles for the form
-    const formStyles = {
-        border: "1px solid rgb(0, 209, 178)",
-        padding: "2rem",
-    }
-
     // Change category when user selects a different one in the dropdown
     const handleSelectChange = (e) => {
         const categorySelected = formData.find(category => category.title === e.target.value);
@@ -49,50 +43,48 @@ function Form() {
         <section>
             <div className='is-flex is-flex-direction-column is-align-items-center'>
                 {formData.length ?
-                    <form style={formStyles}>
-                        <div style={{ marginBottom: "1rem" }} className='is-flex is-justify-content-center'>
-                            <div className='field is-grouped'>
-                                <div className="field is-horizontal">
-                                    <div className="field-label is-normal">
-                                        <label htmlFor="categories" className='label'>Category:</label>
-                                    </div>
-                                    <div className="field-body">
-                                        <div className="field has-addons">
-                                            <div className='control'>
-                                                <div className="select is-primary">
-                                                    <select className='is-radiusless' onChange={handleSelectChange} name="categories" id="categories-dropdown">
-                                                        {formData.map((item, index) => {
-                                                            return (<option value={item.title} key={index}>{item.title}</option>);
-                                                        })}
-                                                    </select>
-                                                </div>
+                    <form className='form'>
+                        <div className='field is-grouped is-justify-content-space-between is-flex-wrap-wrap'>
+                            <div className="field is-horizontal">
+                                <div className="field-label is-normal">
+                                    <label htmlFor="categories" className='label'>Category:</label>
+                                </div>
+                                <div className="field-body">
+                                    <div className="field has-addons">
+                                        <div className='control'>
+                                            <div className="select is-primary">
+                                                <select className='is-radiusless' onChange={handleSelectChange} name="categories" id="categories-dropdown">
+                                                    {formData.map((item, index) => {
+                                                        return (<option value={item.title} key={index}>{item.title}</option>);
+                                                    })}
+                                                </select>
                                             </div>
-                                            <div className='control'>
-                                                <button
-                                                    className='button is-primary is-radiusless is-outlined'
-                                                    onClick={() => setModal(true)}
-                                                >
-                                                    Edit
-                                                </button>
-                                            </div>
+                                        </div>
+                                        <div className='control'>
+                                            <button
+                                                className='button is-primary is-radiusless is-outlined'
+                                                onClick={() => setModal(true)}
+                                            >
+                                                Edit
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="field is-horizontal">
-                                    <div className="field-label is-normal">
-                                        <label htmlFor="priority" className='label'>Priority:</label>
-                                    </div>
-                                    <div className="field-body">
-                                        <div className="control">
-                                            <div className="select is-primary">
-                                                <select name="priority" id="priority" className='is-radiusless' value={priorityValue} onChange={(e) => setPriority(e.target.value)}>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select>
-                                            </div>
+                            </div>
+                            <div className="field is-horizontal">
+                                <div className="field-label is-normal">
+                                    <label htmlFor="priority" className='label'>Priority:</label>
+                                </div>
+                                <div className="field-body">
+                                    <div className="control">
+                                        <div className="select is-primary">
+                                            <select name="priority" id="priority" className='is-radiusless' value={priorityValue} onChange={(e) => setPriority(e.target.value)}>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -104,8 +96,8 @@ function Form() {
                                     <div key={day}>
                                         <hr></hr>
                                         <h2 className='subtitle'>{fullWeekDays[index]}</h2>
-                                        <div className="field is-grouped is-justify-content-space-between">
-                                            <div className='field'>
+                                        <div className="field is-grouped is-flex-wrap-wrap">
+                                            <div className='field title-input__field'>
                                                 <label htmlFor={`${day}-title`} className='label'>Title</label>
                                                 <div className="control has-icons-left">
                                                     <input
@@ -121,7 +113,7 @@ function Form() {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className='field'>
+                                            <div className='field allottedTime-input__field'>
                                                 <label htmlFor={`${day}-allottedTime`} className='label'>Alloted time</label>
                                                 <div className="control has-icons-left">
                                                     <input
