@@ -145,7 +145,7 @@ function Form() {
                     </div>
                 }
             </div>
-            {modal && <Modal />}
+            {modal && <Modal closeModal={() => setModal(false)} />}
         </section>
     )
 }

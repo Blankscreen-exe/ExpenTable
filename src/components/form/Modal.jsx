@@ -1,44 +1,111 @@
-import React from 'react';
+import React, { useState } from 'react';
+import tableData from '../../data/table.json';
 
-export default function Modal() {
+export default function Modal(props) {
+    const [categories, setCategories] = useState(tableData);
+
+    const addCategoryHandler = () => {
+        const newId = `id${categories.length + 1}`;
+        const newCategory = {
+            id: newId,
+            title: "",
+            priority: 1,
+            done: false,
+            days: {}
+        }
+
+        setCategories(prevValue => [...prevValue, newCategory]);
+    }
+
+    const handleTitleChange = (e) => {
+        const index = parseInt(e.target.dataset.index, 10);
+        const value = e.target.value;
+
+        setCategories(prevValue =>
+            prevValue.map((category, i) =>
+                i === index ? { ...category, title: value } : category
+            )
+        );
+    }
+
+    const handlePriorityChange = (e) => {
+        const { id, value } = e.target;
+        const numValue = Number(value);
+
+        setCategories(prevValue =>
+            prevValue.map(category =>
+                category.id === id
+                    ? { ...category, priority: numValue }
+                    : category
+            )
+        );
+    }
+
+    const deleteCategory = (e) => {
+        const index = e.target.id;
+
+        setCategories(prevValue => prevValue.toSpliced(index, 1));
+    }
+
     return (
         <div className='form-modal-card'>
             <form className='modal-content'>
-                <div style={{ marginBottom: "2rem" }} className="is-display-flex is-justify-content-space-between is-column-gap-8">
-                    <div className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1'>
+                <div className="is-display-flex is-justify-content-space-between is-column-gap-8">
+                    <div style={{ marginBottom: "0" }} className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1'>
                         <span className='subtitle modal-span'>Categories</span>
                         <div className="control modal-control">
-                            <button type='button' className="button is-primary is-outlined is-radiusless">Add Category</button>
+                            <button
+                                type='button'
+                                onClick={addCategoryHandler}
+                                className="button is-primary is-outlined is-radiusless">
+                                Add Category
+                            </button>
                         </div>
                     </div>
                     <div className="control has-icons">
-                        <button>
+                        <button type='button' onClick={() => props.closeModal()}>
                             <span className="icon is-left">
-                                <i class="fa-solid fa-xmark fa-lg"></i>
+                                <i className="fa-solid fa-xmark fa-lg"></i>
                             </span>
                         </button>
                     </div>
                 </div>
-                <span style={{ display: "inline-block", marginBottom: "1rem" }} className='has-text-primary'>Title / Priority / Action</span>
-                <div className="field is-grouped is-flex-wrap-wrap">
-                    <div className="control">
-                        <input type="text" placeholder='Title' className="input is-primary is-radiusless" />
-                    </div>
-                    <div className="control">
-                        <div className="select is-primary">
-                            <select name="priority" id="priority" className='is-radiusless'>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                {categories?.length > 0 && <span style={{ display: "inline-block", marginBlock: "1.5rem" }} className='has-text-primary'>Title / Priority / Action</span>}
+                {categories.map((category, index) => {
+                    return (
+                        <div>
+                            <div className="field is-grouped is-column-gap-2 is-flex-wrap-wrap" key={category.id}>
+                                <div className="control">
+                                    <input
+                                        name={`title-${index}`}
+                                        id={`title-${index}`}
+                                        data-index={index}
+                                        onChange={handleTitleChange}
+                                        type="text"
+                                        placeholder='Title'
+                                        className="input is-primary is-radiusless"
+                                        value={category.title}
+                                    />
+                                </div>
+                                <div className="control">
+                                    <div className="select is-primary">
+                                        <select onChange={handlePriorityChange} name={`priority-${index}`} id={category.id ? category.id : ""} className='is-radiusless' value={category?.priority || ""}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="control">
+                                    <button id={index} onClick={deleteCategory} type='button' className="button is-danger is-radiusless">Delete</button>
+                                </div>
+                            </div>
+                            {categories.length - 1 !== index && <hr style={{margin: "1rem 0"}} />}
                         </div>
-                    </div>
-                    <div className="control">
-                        <button className="button is-danger is-radiusless">Delete</button>
-                    </div>
-                </div>
+                    )
+                })}
             </form>
         </div>
     )
