@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import tableData from '../../data/table.json';
+import { useLocalStorage } from '../../customHooks';
 
 export default function Modal(props) {
-    const [categories, setCategories] = useState(tableData);
+    const categoriesKey = "categories";
+    const [categories, setCategories] = useLocalStorage(categoriesKey, []);
 
     const addCategoryHandler = () => {
         const newId = `id${categories.length + 1}`;
         const newCategory = {
             id: newId,
             title: "",
-            priority: 1,
+            priority: 0,
             done: false,
             days: {}
         }
@@ -50,7 +51,7 @@ export default function Modal(props) {
     return (
         <div className='form-modal-card'>
             <form className='modal-content'>
-                <div className="is-display-flex is-justify-content-space-between is-column-gap-8 mb-5">
+                <div style={categories.length > 0 ? { marginBottom: '1.5rem' } : {} } className="is-display-flex is-justify-content-space-between is-column-gap-8">
                     <div style={{ marginBottom: "0" }} className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1.5'>
                         <span className='subtitle modal-span'>Categories</span>
                         <div className="control modal-control">
@@ -63,7 +64,7 @@ export default function Modal(props) {
                         </div>
                     </div>
                     <div className="control has-icons">
-                        <button type='button' onClick={() => props.closeModal()}>
+                        <button type='button' onClick={() => props.closeModal(categories)}>
                             <span className="icon is-left">
                                 <i className="fa-solid fa-xmark fa-lg"></i>
                             </span>
@@ -72,8 +73,8 @@ export default function Modal(props) {
                 </div>
                 {categories.map((category, index) => {
                     return (
-                        <div>
-                            <div className="custom-field field is-grouped is-column-gap-2 is-flex-wrap-wrap" key={category.id}>
+                        <div key={category.id}>
+                            <div className="custom-field field is-grouped is-column-gap-2 is-flex-wrap-wrap">
                                 <div className="control custom-control">
                                     <input
                                         name={`title-${index}`}
@@ -89,7 +90,7 @@ export default function Modal(props) {
                                 <div className="control">
                                     <div className="select is-primary">
                                         <select onChange={handlePriorityChange} name={`priority-${index}`} id={category.id ? category.id : ""} className='is-radiusless' value={category?.priority || ""}>
-                                            <option value="" disabled selected hidden>Priority</option>
+                                            <option value="" disabled hidden>Priority</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>

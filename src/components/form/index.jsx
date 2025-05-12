@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useLocalStorage } from '../../customHooks';
 import Modal from './Modal';
-import tableData from '../../data/table.json';
 import appConstants from '../../appConstants';
 
 function Form() {
     const categoriesKey = "categories";
-    // const [formData, setFormData] = useLocalStorage(categoriesKey, []);
-    const formData = tableData;
+    const [formData, setFormData] = useLocalStorage(categoriesKey, []);
     const [modal, setModal] = useState(false);
     const [selectedCategory, setCategory] = useState(formData[0]);
     const [days, setDays] = useState(selectedCategory?.days || {});
@@ -32,11 +30,34 @@ function Form() {
         const property = name.slice(4, name.length);
 
         if (property === "title") {
-            setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), title: value } }));
+            const newDays = {
+                ...days,
+                [day]: {
+                    ...(days[day] || {}),
+                    title: value
+                }
+            }
+
+            const categoryId = selectedCategory.id;
+
+            setDays(newDays);
+            setCategory(prevValue => ({...prevValue, days: newDays}));
+            setFormData(prevValue => 
+                prevValue.map((category) => 
+                    categoryId === category.id ? { ...category, days: newDays } : category
+                )
+            );
         } else if (property === "allottedTime") {
+            // Resolver esto igual que con lo de title
             const numValue = parseFloat(value);
             setDays(prevValue => ({ ...prevValue, [day]: { ...(prevValue[day] || {}), allottedTime: numValue } }));
         }
+    }
+
+    // Update the formData state when the modal closes
+    const closeModal = (newFormData) => {
+        setFormData(newFormData);
+        setModal(false);
     }
 
     return (
@@ -145,7 +166,7 @@ function Form() {
                     </div>
                 }
             </div>
-            {modal && <Modal closeModal={() => setModal(false)} />}
+            {modal && <Modal closeModal={closeModal} />}
         </section>
     )
 }
