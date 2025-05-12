@@ -4,6 +4,7 @@ import { useLocalStorage } from '../../customHooks';
 export default function Modal(props) {
     const categoriesKey = "categories";
     const [categories, setCategories] = useLocalStorage(categoriesKey, []);
+    const [lastModifiedCategoryId, setCategoryId] = useState(props.currentCategoryId);
 
     const addCategoryHandler = () => {
         const newId = `id${categories.length + 1}`;
@@ -15,16 +16,17 @@ export default function Modal(props) {
             days: {}
         }
 
-        setCategories(prevValue => [...prevValue, newCategory]);
+        setCategories(prevValue => [newCategory, ...prevValue]);
     }
 
     const handleTitleChange = (e) => {
-        const index = parseInt(e.target.dataset.index, 10);
+        const id = e.target.dataset.id;
         const value = e.target.value;
 
+        setCategoryId(id);
         setCategories(prevValue =>
-            prevValue.map((category, i) =>
-                i === index ? { ...category, title: value } : category
+            prevValue.map(category =>
+                category.id === id ? { ...category, title: value } : category
             )
         );
     }
@@ -33,6 +35,7 @@ export default function Modal(props) {
         const { id, value } = e.target;
         const numValue = Number(value);
 
+        setCategoryId(id);
         setCategories(prevValue =>
             prevValue.map(category =>
                 category.id === id
@@ -43,9 +46,11 @@ export default function Modal(props) {
     }
 
     const deleteCategory = (e) => {
-        const index = e.target.id;
-
-        setCategories(prevValue => prevValue.toSpliced(index, 1));
+        const id = e.target.dataset.delete_id;
+        console.log(id);
+        
+        setCategoryId(prevValue => prevValue === id ? null : prevValue);
+        setCategories(prevValue => prevValue.filter(category => id !== category.id));
     }
 
     return (
@@ -64,7 +69,7 @@ export default function Modal(props) {
                         </div>
                     </div>
                     <div className="control has-icons">
-                        <button type='button' onClick={() => props.closeModal(categories)}>
+                        <button type='button' onClick={() => props.closeModal(categories, lastModifiedCategoryId)}>
                             <span className="icon is-left">
                                 <i className="fa-solid fa-xmark fa-lg"></i>
                             </span>
@@ -79,7 +84,7 @@ export default function Modal(props) {
                                     <input
                                         name={`title-${index}`}
                                         id={`title-${index}`}
-                                        data-index={index}
+                                        data-id={category.id}
                                         onChange={handleTitleChange}
                                         type="text"
                                         placeholder='Title'
@@ -100,7 +105,7 @@ export default function Modal(props) {
                                     </div>
                                 </div>
                                 <div className="control">
-                                    <button id={index} onClick={deleteCategory} type='button' className="button is-danger is-radiusless">Delete</button>
+                                    <button data-delete_id={category.id} onClick={deleteCategory} type='button' className="button is-danger is-radiusless">Delete</button>
                                 </div>
                             </div>
                             {categories.length - 1 !== index && <hr style={{margin: "0 0 1rem 0"}} />}
