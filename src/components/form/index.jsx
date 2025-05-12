@@ -97,7 +97,7 @@ function Form() {
                                 return (
                                     <div key={day}>
                                         <hr></hr>
-                                        <h2 className='subtitle'>{fullWeekDays[index]}</h2>
+                                        <h2 style={{ marginBottom: "1rem" }} className='subtitle'>{fullWeekDays[index]}</h2>
                                         <div className="field is-grouped is-flex-wrap-wrap">
                                             <div className='field title-input__field'>
                                                 <label htmlFor={`${day}-title`} className='label'>Title</label>

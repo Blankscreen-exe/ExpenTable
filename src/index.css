@@ -178,7 +178,7 @@ button:focus-visible {
   transform: translateX(-50%);
   z-index: 100;
   background-color: #14161a;
-  min-width: 34.4rem;
+  min-width: max-content;
   max-height: 36.5rem;
   overflow-y: auto;
 }
@@ -192,10 +192,24 @@ button:focus-visible {
   margin-block: 1rem !important;
 }
 
+.custom-field > div{
+  flex-grow: 1;
+}
+
+.custom-field select, 
+.custom-field .select, 
+.custom-field button {
+  width: 100%;
+}
+
 @media screen and (max-width: 600px) {
   .form-modal-card {
     width: 88%;
     min-width: auto;
+  }
+
+  .custom-control {
+    flex-basis: 100%;
   }
 }
 
@@ -205,6 +219,7 @@ button:focus-visible {
   }
 }
 
+/* Modifying the scroll-bar styles */
 ::-webkit-scrollbar {
   width: 10px;
 }

@@ -50,8 +50,8 @@ export default function Modal(props) {
     return (
         <div className='form-modal-card'>
             <form className='modal-content'>
-                <div className="is-display-flex is-justify-content-space-between is-column-gap-8">
-                    <div style={{ marginBottom: "0" }} className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1'>
+                <div className="is-display-flex is-justify-content-space-between is-column-gap-8 mb-5">
+                    <div style={{ marginBottom: "0" }} className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1.5'>
                         <span className='subtitle modal-span'>Categories</span>
                         <div className="control modal-control">
                             <button
@@ -70,12 +70,11 @@ export default function Modal(props) {
                         </button>
                     </div>
                 </div>
-                {categories?.length > 0 && <span style={{ display: "inline-block", marginBlock: "1.5rem" }} className='has-text-primary'>Title / Priority / Action</span>}
                 {categories.map((category, index) => {
                     return (
                         <div>
-                            <div className="field is-grouped is-column-gap-2 is-flex-wrap-wrap" key={category.id}>
-                                <div className="control">
+                            <div className="custom-field field is-grouped is-column-gap-2 is-flex-wrap-wrap" key={category.id}>
+                                <div className="control custom-control">
                                     <input
                                         name={`title-${index}`}
                                         id={`title-${index}`}
@@ -90,6 +89,7 @@ export default function Modal(props) {
                                 <div className="control">
                                     <div className="select is-primary">
                                         <select onChange={handlePriorityChange} name={`priority-${index}`} id={category.id ? category.id : ""} className='is-radiusless' value={category?.priority || ""}>
+                                            <option value="" disabled selected hidden>Priority</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -102,7 +102,7 @@ export default function Modal(props) {
                                     <button id={index} onClick={deleteCategory} type='button' className="button is-danger is-radiusless">Delete</button>
                                 </div>
                             </div>
-                            {categories.length - 1 !== index && <hr style={{margin: "1rem 0"}} />}
+                            {categories.length - 1 !== index && <hr style={{margin: "0 0 1rem 0"}} />}
                         </div>
                     )
                 })}
