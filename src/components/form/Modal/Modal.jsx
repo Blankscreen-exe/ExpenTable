@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { useLocalStorage } from '../../customHooks';
+import { useState } from 'react';
+import { useLocalStorage } from '../../../customHooks';
+import Input from "../Input/Input";
+import Select from "../Select/Select";
+import "./Modal.css";
 
-export default function Modal(props) {
+function Modal(props) {
     const categoriesKey = "categories";
     const [categories, setCategories] = useLocalStorage(categoriesKey, []);
     const [lastModifiedCategoryId, setCategoryId] = useState(props.currentCategoryId);
@@ -81,27 +84,25 @@ export default function Modal(props) {
                         <div key={category.id}>
                             <div className="custom-field field is-grouped is-column-gap-2 is-flex-wrap-wrap">
                                 <div className="control custom-control">
-                                    <input
+                                    <Input
                                         name={`title-${index}`}
                                         id={`title-${index}`}
                                         data-id={category.id}
                                         onChange={handleTitleChange}
-                                        type="text"
                                         placeholder='Title'
-                                        className="input is-primary is-radiusless"
                                         value={category.title}
                                     />
                                 </div>
                                 <div className="control">
                                     <div className="select is-primary">
-                                        <select onChange={handlePriorityChange} name={`priority-${index}`} id={category.id ? category.id : ""} className='is-radiusless' value={category?.priority || ""}>
-                                            <option value="" disabled hidden>Priority</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
+                                        <Select 
+                                            onChange={handlePriorityChange} 
+                                            name={`priority-${index}`} 
+                                            id={category.id ? category.id : ""} 
+                                            value={category?.priority || ""}
+                                            options={[1, 2, 3, 4, 5]}
+                                            placeholder="Priority"
+                                        />
                                     </div>
                                 </div>
                                 <div className="control">
@@ -116,3 +117,5 @@ export default function Modal(props) {
         </div>
     )
 }
+
+export default Modal;

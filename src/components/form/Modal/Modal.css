@@ -1,0 +1,64 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+}
+
+.form-modal-card {
+  border: 1px solid rgb(0, 209, 178);
+  padding: 2rem;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background-color: #14161a;
+  min-width: max-content;
+  max-height: 36.5rem;
+  overflow-y: auto;
+}
+
+.subtitle.modal-span {
+  margin-block: 0;
+  margin-right: 1rem;
+}
+
+.modal-sub {
+  margin-block: 1rem !important;
+}
+
+.custom-field > div{
+  flex-grow: 1;
+}
+
+.custom-field select, 
+.custom-field .select, 
+.custom-field button {
+  width: 100%;
+}
+
+/* Media Query for tablet device */
+@media screen and (max-width: 600px) {
+  .form-modal-card {
+    width: 88%;
+    min-width: auto;
+  }
+
+  .custom-control {
+    flex-basis: 100%;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .form-modal-card {
+    padding-inline: 1.5rem;
+  }
+}

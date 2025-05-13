@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLocalStorage } from '../../customHooks';
-import Modal from './Modal';
+import Modal from './Modal/Modal';
 import appConstants from '../../appConstants';
+import Input from "./Input/Input";
+import Select from "./Select/Select"
+import "./Form.css";
 
 function Form() {
     const categoriesKey = "categories";
@@ -76,11 +79,13 @@ function Form() {
                                     <div className="field has-addons">
                                         <div className='control'>
                                             <div className="select is-primary">
-                                                <select className='is-radiusless' value={selectedCategory.title} onChange={handleSelectChange} name="categories" id="categories-dropdown">
-                                                    {formData.map((item, index) => {
-                                                        return (<option value={item.title} key={index}>{item.title}</option>);
-                                                    })}
-                                                </select>
+                                                <Select 
+                                                    value={selectedCategory.title} 
+                                                    onChange={handleSelectChange} 
+                                                    name="categories" 
+                                                    id="categories-dropdown"
+                                                    options={formData.map(item => item.title)} 
+                                                />
                                             </div>
                                         </div>
                                         <div className='control'>
@@ -102,13 +107,13 @@ function Form() {
                                 <div className="field-body">
                                     <div className="control">
                                         <div className="select is-primary">
-                                            <select name="priority" id="priority" className='is-radiusless' value={priorityValue} onChange={handlePriorityChange}>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
+                                            <Select 
+                                                name="priority" 
+                                                id="priority" 
+                                                value={priorityValue} 
+                                                onChange={handlePriorityChange}
+                                                options={[1, 2, 3, 4, 5]}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -124,13 +129,11 @@ function Form() {
                                             <div className='field title-input__field'>
                                                 <label htmlFor={`${day}-title`} className='label'>Title</label>
                                                 <div className="control has-icons-left">
-                                                    <input
+                                                    <Input
                                                         onChange={handleDaysInputChange}
-                                                        type="text"
                                                         name={`${day}-title`}
                                                         id={`${day}-title`}
                                                         value={days[day]?.title || ""}
-                                                        className='input is-primary is-radiusless'
                                                     />
                                                     <span className="icon custom-icon is-left">
                                                         <i className="fa-regular fa-pen-to-square"></i>
@@ -140,15 +143,14 @@ function Form() {
                                             <div className='field allottedTime-input__field'>
                                                 <label htmlFor={`${day}-allottedTime`} className='label'>Alloted time</label>
                                                 <div className="control has-icons-left">
-                                                    <input
+                                                    <Input
                                                         onChange={handleDaysInputChange}
                                                         type="number" step={0.5}
                                                         name={`${day}-allottedTime`}
                                                         id={`${day}-allotted-time`}
                                                         value={days[day]?.allottedTime || ""}
-                                                        className='input is-primary is-radiusless'
                                                     />
-                                                    <span className="icon custom-icon is-left">
+                                                    <span className="icon custom-icon is-left is-primary">
                                                         <i className="fa-regular fa-clock"></i>
                                                     </span>
                                                 </div>
@@ -172,4 +174,4 @@ function Form() {
     )
 }
 
-export default Form
+export default Form;
