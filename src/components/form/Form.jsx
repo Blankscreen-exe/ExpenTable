@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useLocalStorage } from '../../customHooks';
-import Modal from './Modal/Modal';
 import appConstants from '../../appConstants';
-import Input from "./Input/Input";
-import Select from "./Select/Select"
+import { Modal, Input, Select, Button } from "./index";
 import "./Form.css";
 
 function Form() {
@@ -89,13 +87,11 @@ function Form() {
                                             </div>
                                         </div>
                                         <div className='control'>
-                                            <button
-                                                type='button'
-                                                className='button is-primary is-radiusless is-outlined'
+                                            <Button
+                                                className='is-primary is-outlined'
                                                 onClick={() => setModal(true)}
-                                            >
-                                                Edit
-                                            </button>
+                                                content="Edit"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -149,6 +145,7 @@ function Form() {
                                                         name={`${day}-allottedTime`}
                                                         id={`${day}-allotted-time`}
                                                         value={days[day]?.allottedTime || ""}
+                                                        inputMode="numeric"
                                                     />
                                                     <span className="icon custom-icon is-left is-primary">
                                                         <i className="fa-regular fa-clock"></i>
@@ -165,7 +162,11 @@ function Form() {
                     :
                     <div style={{ height: "24rem" }} className='is-flex is-flex-direction-column is-align-items-center is-justify-content-center is-row-gap-2'>
                         <h2 className='subtitle has-text-centered'>You still have no categories created.</h2>
-                        <button type='button' className='button is-primary is-outlined is-radiusless' onClick={() => setModal(true)}>Create a new category</button>
+                        <Button 
+                            className='is-primary is-outlined' 
+                            onClick={() => setModal(true)}
+                            content="Create a new category"
+                        />
                     </div>
                 }
             </div>

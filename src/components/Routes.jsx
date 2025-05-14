@@ -8,7 +8,7 @@ import appConstants from '../appConstants'
 // Components
 import Home from './home'
 import About from './about'
-import Form from './form'
+import { Form } from './form'
 import Error404 from './common/Error404'
 
 function RoutesList(props) {

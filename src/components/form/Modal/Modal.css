@@ -24,6 +24,7 @@
   min-width: max-content;
   max-height: 36.5rem;
   overflow-y: auto;
+  transition: background-color 0.3s ease;
 }
 
 .subtitle.modal-span {
@@ -43,6 +44,25 @@
 .custom-field .select, 
 .custom-field button {
   width: 100%;
+}
+
+.warning-animation {
+  animation: warning .5s ease-in-out;
+}
+
+@keyframes warning {
+  25% {
+    transform: translateX(10px);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }
 
 /* Media Query for tablet device */

@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { useLocalStorage } from '../../../customHooks';
-import Input from "../Input/Input";
-import Select from "../Select/Select";
+import { Input, Select, Button, DeleteModal } from "../index";
 import "./Modal.css";
 
 function Modal(props) {
     const categoriesKey = "categories";
     const [categories, setCategories] = useLocalStorage(categoriesKey, []);
     const [lastModifiedCategoryId, setCategoryId] = useState(props.currentCategoryId);
+    const [warnThisIdTitle, setTitleWarning] = useState("");
+    const [warnThisIdPriority, setPriorityWarning] = useState("");
+    const [repeatedTitleWarning, setRepeatedTitleWarning] = useState("");
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [categoryToDelete, setCategoryToDelete] = useState("");
 
     const addCategoryHandler = () => {
         const newId = `id${categories.length + 1}`;
@@ -19,13 +23,25 @@ function Modal(props) {
             days: {}
         }
 
+        setTitleWarning("");
+        setPriorityWarning("");
         setCategories(prevValue => [newCategory, ...prevValue]);
     }
 
     const handleTitleChange = (e) => {
         const id = e.target.dataset.id;
         const value = e.target.value;
+        const changedCategory = categories.find(category => category.id === id);
 
+        setRepeatedTitleWarning("");
+
+        categories.forEach(category => {
+            if (category.title === value) {
+                setRepeatedTitleWarning(changedCategory.id);
+            }
+        });
+
+        setTitleWarning("");
         setCategoryId(id);
         setCategories(prevValue =>
             prevValue.map(category =>
@@ -38,6 +54,7 @@ function Modal(props) {
         const { id, value } = e.target;
         const numValue = Number(value);
 
+        setPriorityWarning("");
         setCategoryId(id);
         setCategories(prevValue =>
             prevValue.map(category =>
@@ -48,73 +65,114 @@ function Modal(props) {
         );
     }
 
-    const deleteCategory = (e) => {
+    const checkDeleteAnswer = (e) => {
         const id = e.target.dataset.delete_id;
-        console.log(id);
-        
-        setCategoryId(prevValue => prevValue === id ? null : prevValue);
-        setCategories(prevValue => prevValue.filter(category => id !== category.id));
+        setCategoryToDelete(id);
+        setDeleteModal(true);
+    }
+
+    const closeDeleteModal = (result) => {
+        setCategories(prevValue => result ? result : prevValue);
+        setDeleteModal(false);
+    }
+
+    const handleCloseModal = () => {
+        let invalidTitle = null;
+        let invalidPriority = null;
+
+        for (const category of categories) {
+            if (!invalidTitle && !category.title) {
+                invalidTitle = category;
+            }
+
+            if (!invalidPriority && !category.priority) {
+                invalidPriority = category;
+            }
+
+            if (invalidTitle && invalidPriority) break;
+        }
+
+        if (invalidTitle || invalidPriority) {
+            if (invalidTitle) setTitleWarning(invalidTitle.id);
+            if (invalidPriority) setPriorityWarning(invalidPriority.id);
+
+            return;
+        }
+
+        props.closeModal(categories, lastModifiedCategoryId);
     }
 
     return (
-        <div className='form-modal-card'>
-            <form className='modal-content'>
-                <div style={categories.length > 0 ? { marginBottom: '1.5rem' } : {} } className="is-display-flex is-justify-content-space-between is-column-gap-8">
-                    <div style={{ marginBottom: "0" }} className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1.5'>
-                        <span className='subtitle modal-span'>Categories</span>
-                        <div className="control modal-control">
-                            <button
-                                type='button'
-                                onClick={addCategoryHandler}
-                                className="button is-primary is-outlined is-radiusless">
-                                Add Category
-                            </button>
+        <>
+            <div className='form-modal-card'>
+                <div className={`modal-overlay ${deleteModal ? "open" : ""}`}/>
+                <form className='modal-content'>
+                    <div style={categories.length > 0 ? { marginBottom: '1.5rem' } : {}} className="is-display-flex is-justify-content-space-between is-column-gap-8">
+                        <div style={{ marginBottom: "0" }} className='field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1.5'>
+                            <span className='subtitle modal-span'>Categories</span>
+                            <div className="control modal-control">
+                                <Button
+                                    onClick={addCategoryHandler}
+                                    className="is-primary is-outlined"
+                                    content="Add Category"
+                                />
+                            </div>
+                        </div>
+                        <div className="control has-icons">
+                            <Button
+                                onClick={handleCloseModal}
+                                content={<span className="icon is-left"><i className="fa-solid fa-xmark fa-lg"></i></span>}
+                                className='no-border no-hover'
+                            />
                         </div>
                     </div>
-                    <div className="control has-icons">
-                        <button type='button' onClick={() => props.closeModal(categories, lastModifiedCategoryId)}>
-                            <span className="icon is-left">
-                                <i className="fa-solid fa-xmark fa-lg"></i>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-                {categories.map((category, index) => {
-                    return (
-                        <div key={category.id}>
-                            <div className="custom-field field is-grouped is-column-gap-2 is-flex-wrap-wrap">
-                                <div className="control custom-control">
-                                    <Input
-                                        name={`title-${index}`}
-                                        id={`title-${index}`}
-                                        data-id={category.id}
-                                        onChange={handleTitleChange}
-                                        placeholder='Title'
-                                        value={category.title}
-                                    />
-                                </div>
-                                <div className="control">
-                                    <div className="select is-primary">
-                                        <Select 
-                                            onChange={handlePriorityChange} 
-                                            name={`priority-${index}`} 
-                                            id={category.id ? category.id : ""} 
-                                            value={category?.priority || ""}
-                                            options={[1, 2, 3, 4, 5]}
-                                            placeholder="Priority"
+                    {categories.map((category, index) => {
+                        return (
+                            <div key={category.id}>
+                                <div className="custom-field field is-grouped is-column-gap-2 is-flex-wrap-wrap">
+                                    <div className="control custom-control">
+                                        <Input
+                                            name={`title-${index}`}
+                                            id={`title-${index}`}
+                                            data-id={category.id}
+                                            onChange={handleTitleChange}
+                                            placeholder='Title'
+                                            value={category.title}
+                                            className={warnThisIdTitle === category.id || repeatedTitleWarning === category.id ? 'is-danger warning-animation' : ''}
+                                        />
+                                        <span className={`has-text-danger ${warnThisIdTitle === category.id ? "is-display-block" : "is-display-none"}`}>Please enter a title!</span>
+                                        <span className={`has-text-danger ${repeatedTitleWarning === category.id ? "is-display-block" : "is-display-none"}`}>Cannot have repeated titles!</span>
+                                    </div>
+                                    <div className="control">
+                                        <div className={warnThisIdPriority === category.id ? 'select is-danger warning-animation' : 'select is-primary'}>
+                                            <Select
+                                                onChange={handlePriorityChange}
+                                                name={`priority-${index}`}
+                                                id={category.id ? category.id : ""}
+                                                value={category?.priority || ""}
+                                                options={[1, 2, 3, 4, 5]}
+                                                placeholder="Priority"
+                                            />
+                                        </div>
+                                        <span className={`has-text-danger ${warnThisIdPriority === category.id ? "is-display-block" : "is-display-none"}`}>Please enter a priority!</span>
+                                    </div>
+                                    <div className="control">
+                                        <Button
+                                            data-delete_id={category.id}
+                                            onClick={checkDeleteAnswer}
+                                            className="is-danger"
+                                            content="Delete"
                                         />
                                     </div>
                                 </div>
-                                <div className="control">
-                                    <button data-delete_id={category.id} onClick={deleteCategory} type='button' className="button is-danger is-radiusless">Delete</button>
-                                </div>
+                                {categories.length - 1 !== index && <hr style={{ margin: "1rem 0" }} />}
                             </div>
-                            {categories.length - 1 !== index && <hr style={{margin: "0 0 1rem 0"}} />}
-                        </div>
-                    )
-                })}
-            </form>
-        </div>
+                        )
+                    })}
+                </form>
+            </div>
+            {deleteModal && <DeleteModal closeDeleteModal={closeDeleteModal} allCategories={categories} categoryToDeleteId={categoryToDelete} />}
+        </>
     )
 }
 

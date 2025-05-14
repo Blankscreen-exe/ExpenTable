@@ -1,4 +1,4 @@
 .input:focus~.icon,
 .input:focus~.icon {
-  color: rgb(0, 209, 178) !important;
+  color: #00d1b2 !important;
 }

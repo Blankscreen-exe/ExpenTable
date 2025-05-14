@@ -1,0 +1,14 @@
+.delete-modal-card {
+    position: absolute;
+    z-index: 100;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 27rem;
+    height: 12rem;
+    background-color: #14161a;
+    border: 1px solid #047463;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
