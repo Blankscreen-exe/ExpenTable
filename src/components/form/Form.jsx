@@ -58,7 +58,7 @@ function Form() {
     // Update the formData state when the modal closes
     const closeModal = (newFormData, modifiedCategoryId) => {
         setFormData(newFormData);
-        setCategoryId(modifiedCategoryId || newFormData[0]?.id);
+        setCategoryId(modifiedCategoryId ?? newFormData[0]?.id ?? null);
         setModal(false);
     }
 
@@ -146,6 +146,7 @@ function Form() {
                                                         id={`${day}-allotted-time`}
                                                         value={days[day]?.allottedTime || ""}
                                                         inputMode="numeric"
+                                                        min={0.5}
                                                     />
                                                     <span className="icon custom-icon is-left is-primary">
                                                         <i className="fa-regular fa-clock"></i>

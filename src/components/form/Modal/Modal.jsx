@@ -6,7 +6,7 @@ import "./Modal.css";
 function Modal(props) {
     const categoriesKey = "categories";
     const [categories, setCategories] = useLocalStorage(categoriesKey, []);
-    const [lastModifiedCategoryId, setCategoryId] = useState(props.currentCategoryId);
+    const [lastModifiedCategoryId, setLastModifiedCategoryId] = useState(props.currentCategoryId);
     const [warnThisIdTitle, setTitleWarning] = useState("");
     const [warnThisIdPriority, setPriorityWarning] = useState("");
     const [repeatedTitleWarning, setRepeatedTitleWarning] = useState("");
@@ -14,7 +14,9 @@ function Modal(props) {
     const [categoryToDelete, setCategoryToDelete] = useState("");
 
     const addCategoryHandler = () => {
-        const newId = `id${categories.length + 1}`;
+        const lastCategoryId = categories[0]?.id || "id0";
+        const lastIdNumber = Number(lastCategoryId.slice(2));
+        const newId = `id${lastIdNumber + 1}`;
         const newCategory = {
             id: newId,
             title: "",
@@ -42,7 +44,7 @@ function Modal(props) {
         });
 
         setTitleWarning("");
-        setCategoryId(id);
+        setLastModifiedCategoryId(id);
         setCategories(prevValue =>
             prevValue.map(category =>
                 category.id === id ? { ...category, title: value } : category
@@ -55,7 +57,7 @@ function Modal(props) {
         const numValue = Number(value);
 
         setPriorityWarning("");
-        setCategoryId(id);
+        setLastModifiedCategoryId(id);
         setCategories(prevValue =>
             prevValue.map(category =>
                 category.id === id
@@ -72,6 +74,12 @@ function Modal(props) {
     }
 
     const closeDeleteModal = (result) => {
+        const stillExists = result.some(category => category.id === lastModifiedCategoryId);
+
+        if (!stillExists) {
+            setLastModifiedCategoryId(null);
+        }
+
         setCategories(prevValue => result ? result : prevValue);
         setDeleteModal(false);
     }
