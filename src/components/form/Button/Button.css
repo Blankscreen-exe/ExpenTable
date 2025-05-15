@@ -1,0 +1,9 @@
+.no-border {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.no-hover:hover {
+    background-color: transparent;
+}
