@@ -30,7 +30,8 @@ function Home() {
     }
 
   return (
-        <div className="table-container is-flex is-justify-content-center mr-5 ml-5">
+    <div className="px-4 py-4 mx-3 columns is-desktop is-centered">
+        <div className="table-container">
           <table className="table is-striped is-bordered ">
             <thead>
               <tr>
@@ -78,6 +79,7 @@ function Home() {
               </tr>
             </tfoot>
           </table>
+        </div>
         </div>
   );
 }
