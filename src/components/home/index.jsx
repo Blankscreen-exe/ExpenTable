@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import tableData from '../../data/table.json'
 import pack from '../../../package.json'
-import {toTitleCase, getTableStats, getTodayDay } from "../../helpers";
+import { toTitleCase, getTableStats, getTodayDay } from "../../helpers";
 import appConstants from '../../appConstants';
-import {useLocalStorage} from '../../customHooks';
+import { useLocalStorage } from '../../customHooks';
 
 // Components
 import HeaderCell from "./cells/HeaderCell";
@@ -14,71 +14,79 @@ import TaskCell from "./cells/TaskCell";
 import AllottedTimeCell from "./cells/AllottedTimeCell";
 
 function Home() {
-    const [taskCategory, setTaskCategory] = useState([]);
-    const {itemNames, itemCount, choreList} = getTableStats(tableData);
-    const [taskCompleted, setTaskCompleted] = useLocalStorage(appConstants.localStorageKey, {})
+  const [taskCategory, setTaskCategory] = useState([]);
+  const [data, setData] = useLocalStorage(appConstants.categoriesKey, []);
+  const { itemNames, itemCount, choreList } = getTableStats(data);
+  const [taskCompleted, setTaskCompleted] = useLocalStorage(appConstants.localStorageKey, {})
 
-    console.log(taskCompleted)
+  console.log(taskCompleted)
 
-    const handleTaskDoneChange = (event, task_id) => {
-      setTaskCompleted(prevState => {
-        return {
+  const handleTaskDoneChange = (event, task_id) => {
+    setTaskCompleted(prevState => {
+      return {
         ...prevState,
-        [task_id]:event.target.checked
-        }
-      })
-    }
+        [task_id]: event.target.checked
+      }
+    })
+  }
 
   return (
-        <div className="table-container is-flex is-justify-content-center mr-5 ml-5">
-          <table className="table is-striped is-bordered ">
-            <thead>
-              <tr>
-                <HeaderCell value={"Days"}/>
-                <HeaderCell value={"Task Count"}/>
-                {itemNames.map( (item, ind) => {
-                    return (<HeaderCell key={ind} value={toTitleCase(item.title)} />);
-                })}
-              </tr>
-            </thead>
-            <tbody>
-                {appConstants.days.map( (day, ind) => 
-                    (<tr key={ind}>
-                        <DayCell value={toTitleCase(day)} />
-                        <TaskCountCell value={itemCount[day]}/>
-                        {choreList[day].map( (chore, ind) => 
-                          (<TaskCell 
-                              key={ind}
-                              day={day}
-                              value={chore?.title}
-                              isDone={chore?.task_id && taskCompleted[chore.task_id] ? true : false }
-                          />)
-                        )}
-                    </tr>)
-                )}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td></td>
-                <td></td>
-                {choreList[getTodayDay()].map( (item, ind) => (
-                  <AllottedTimeCell key={ind}
-                    value={item ? item.allottedTime : "N/A"}
-                  />
-                ))}
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                {choreList[getTodayDay()].map( (item, ind) => (
-                  <AllottedTimeCell key={ind}
-                    value={item ? <input type="checkbox" onChange={(e) => handleTaskDoneChange(e, item.task_id)} checked={taskCompleted[item.task_id] ? true : false} /> : ""}
-                  />
-                ))}
-              </tr>
-            </tfoot>
-          </table>
+    <div className="table-container is-flex is-justify-content-center mr-5 ml-5">
+      {data.length > 0 ? (
+        <table className="table is-striped is-bordered ">
+          <thead>
+            <tr>
+              <HeaderCell value={"Days"} />
+              <HeaderCell value={"Task Count"} />
+              {itemNames.map((item, ind) => {
+                return (<HeaderCell key={ind} value={toTitleCase(item.title)} />);
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {appConstants.days.map((day, ind) =>
+            (<tr key={ind}>
+              <DayCell value={toTitleCase(day)} />
+              <TaskCountCell value={itemCount[day]} />
+              {choreList[day].map((chore, ind) =>
+              (<TaskCell
+                key={ind}
+                day={day}
+                value={chore?.title}
+                isDone={chore?.task_id && taskCompleted[chore.task_id] ? true : false}
+              />)
+              )}
+            </tr>)
+            )}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              {choreList[getTodayDay()].map((item, ind) => (
+                <AllottedTimeCell key={ind}
+                  value={item ? item.allottedTime : "N/A"}
+                />
+              ))}
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              {choreList[getTodayDay()].map((item, ind) => (
+                <AllottedTimeCell key={ind}
+                  value={item ? <input type="checkbox" onChange={(e) => handleTaskDoneChange(e, item.task_id)} checked={taskCompleted[item.task_id] ? true : false} /> : ""}
+                />
+              ))}
+            </tr>
+          </tfoot>
+        </table>
+      ) : 
+        <div className="section is-flex is-flex-direction-column is-align-items-center">
+          <h2 className="subtitle">No categories has been added yet!</h2>
+          <a href="/edit" className="has-text-primary">Click here to add a new category</a>
         </div>
+      }
+    </div>
   );
 }
 
