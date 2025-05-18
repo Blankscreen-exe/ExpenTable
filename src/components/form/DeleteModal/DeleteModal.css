@@ -1,0 +1,43 @@
+.delete-modal-card {
+    position: absolute;
+    z-index: 100;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 27rem;
+    height: 12rem;
+    background-color: #14161a;
+    border: 1px solid #047463;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.delete-modal-card > .field {
+    column-gap: 4rem;
+}
+
+@media screen and (max-width: 600px) {
+    .delete-modal-card {
+        width: 22rem;
+    }
+
+    .delete-modal-card > .field {
+    column-gap: 3rem;
+}
+}
+
+@media screen and (max-width: 400px) {
+    .delete-modal-card {
+        width: 18rem;
+    }
+
+    .delete-modal-card > .subtitle {
+        font-size: 1.15rem;
+    }
+
+    .delete-modal-card > .field {
+        column-gap: 2rem;
+    }
+}

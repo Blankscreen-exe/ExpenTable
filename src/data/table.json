@@ -2,7 +2,7 @@
   {
     "id":"id1",
     "title": "my projects",
-    "priority": 0,
+    "priority": 2,
     "done": true,
     "days": {
       "tue": {
@@ -30,7 +30,7 @@
   {
     "id":"id2",
     "title": "office tasks",
-    "priority": 0,
+    "priority": 1,
     "done": true,
     "days": {
       "mon": {
@@ -80,6 +80,7 @@
     }
   },
   {
+    "id": "id4",
     "title": "random shit",
     "priority": 0,
     "done": true,
@@ -99,6 +100,7 @@
     }
   },
   {
+    "id": "id5",
     "title": "Moe random shit",
     "priority": 0,
     "done": true,
@@ -118,6 +120,7 @@
     }
   },
   {
+    "id": "id6",
     "title": "Moe random shit",
     "priority": 0,
     "done": true,
@@ -137,6 +140,7 @@
     }
   },
   {
+    "id": "id7",
     "title": "Moe random shit",
     "priority": 0,
     "done": true,

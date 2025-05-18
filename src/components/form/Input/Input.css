@@ -1,0 +1,4 @@
+.input:focus~.icon,
+.input:focus~.icon {
+  color: #00d1b2 !important;
+}

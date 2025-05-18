@@ -1,0 +1,30 @@
+.form {
+  border: 1px solid rgb(0, 209, 178);
+  padding: 2rem;
+  margin-inline: 1rem;
+  min-width: 34rem;
+}
+
+.field:not(.is-horizontal) .field-label {
+  text-align: left;
+}
+
+.control.has-icons-left,
+.control.has-icons-right {
+  color: rgb(0, 209, 178);
+}
+
+.title-input__field {
+  flex-grow: 1;
+}
+
+.allottedTime-input__field {
+  width: 8rem;
+}
+
+/* Media Query for tablet device */
+@media screen and (max-width: 600px) {
+  .form {
+    min-width: auto;
+  }
+}

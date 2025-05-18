@@ -13,5 +13,6 @@ export default {
         'sat',
         'sun',
     ],
-    localStorageKey: 'expentable_table_data-123456789'
+    localStorageKey: 'expentable_table_data-123456789',
+    categoriesKey: 'categories'
 }
