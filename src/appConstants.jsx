@@ -14,5 +14,6 @@ export default {
         'sun',
     ],
     localStorageKey: 'expentable_table_data-123456789',
-    categoriesKey: 'categories'
+    categoriesKey: 'categories',
+    pomodoroMultiplier: 30,
 }
