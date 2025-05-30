@@ -2,6 +2,8 @@
 
 This is an expendable time table which you can easily use to plan your week ahead of time. I saw many daily planner apps and felt that they were quite over whelming and it it took a lot of time to plan each specific activity. Overpowered daily planners like those are not feasible since they should be saving your time, instead you spend a lot of time to just make that planner perfect. With Expentable I am trying to change that. It is a very simple app which aims to under do most of the "modern" bloated planner apps and provide you with a simple, less time-consuming and efficient plans.
 
+## :rocket: Access Live Site [Here](https://expen-table.vercel.app)
+
 ## Features
 
 ### Weekly Plans
@@ -34,4 +36,4 @@ Your timetable data along with configurations can be exported and imported by me
 
 ## Preview
 
-[coming soon]
+![preview](docs/assets/preview.png)
