@@ -74,3 +74,15 @@ export function combineClassNames(...classNames) {
     // Filter out any falsy values (like empty strings, undefined, null) and join them with a single space
     return classNames.filter(Boolean).join(' ');
 }
+
+export function formatTime(minutes) {
+  const hrs = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  let result = '';
+  if (hrs > 0) result += `${hrs} hr${hrs > 1 ? 's' : ''}`;
+  if (hrs > 0 && mins > 0) result += ' ';
+  if (mins > 0) result += `${mins} min${mins > 1 ? 's' : ''}`;
+  
+  return result || '0 min';
+}

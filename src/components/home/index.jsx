@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import tableData from '../../data/table.json'
 import pack from '../../../package.json'
-import { toTitleCase, getTableStats, getTodayDay } from "../../helpers";
+import { toTitleCase, getTableStats, getTodayDay, formatTime } from "../../helpers";
 import appConstants from '../../appConstants';
 import { useLocalStorage } from '../../customHooks';
 
@@ -66,7 +66,7 @@ function Home() {
                 <td></td>
                 {choreList[getTodayDay()].map((item, ind) => (
                   <AllottedTimeCell key={ind}
-                    value={item ? item.allottedTime : "N/A"}
+                    value={item ? item.allottedTime && formatTime(item.allottedTime*appConstants.pomodoroMultiplier) : "N/A"}
                   />
                 ))}
               </tr>
