@@ -31,61 +31,63 @@ function Home() {
   }
 
   return (
-    <div className="table-container is-flex is-justify-content-center mr-5 ml-5">
-      {data.length > 0 ? (
-        <table className="table is-striped is-bordered ">
-          <thead>
-            <tr>
-              <HeaderCell value={"Days"} />
-              <HeaderCell value={"Task Count"} />
-              {itemNames.map((item, ind) => {
-                return (<HeaderCell key={ind} value={toTitleCase(item.title)} />);
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {appConstants.days.map((day, ind) =>
-            (<tr key={ind}>
-              <DayCell value={toTitleCase(day)} />
-              <TaskCountCell value={itemCount[day]} />
-              {choreList[day].map((chore, ind) =>
-              (<TaskCell
-                key={ind}
-                day={day}
-                value={chore?.title}
-                isDone={chore?.task_id && taskCompleted[chore.task_id] ? true : false}
-              />)
+    <div className="px-4 py-4 mx-3 columns is-desktop is-centered">
+      <div className="table-container">
+        {data.length > 0 ? (
+          <table className="table is-striped is-bordered ">
+            <thead>
+              <tr>
+                <HeaderCell value={"Days"} />
+                <HeaderCell value={"Task Count"} />
+                {itemNames.map((item, ind) => {
+                  return (<HeaderCell key={ind} value={toTitleCase(item.title)} />);
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {appConstants.days.map((day, ind) =>
+              (<tr key={ind}>
+                <DayCell value={toTitleCase(day)} />
+                <TaskCountCell value={itemCount[day]} />
+                {choreList[day].map((chore, ind) =>
+                (<TaskCell
+                  key={ind}
+                  day={day}
+                  value={chore?.title}
+                  isDone={chore?.task_id && taskCompleted[chore.task_id] ? true : false}
+                />)
+                )}
+              </tr>)
               )}
-            </tr>)
-            )}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td></td>
-              <td></td>
-              {choreList[getTodayDay()].map((item, ind) => (
-                <AllottedTimeCell key={ind}
-                  value={item ? item.allottedTime : "N/A"}
-                />
-              ))}
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              {choreList[getTodayDay()].map((item, ind) => (
-                <AllottedTimeCell key={ind}
-                  value={item ? <input type="checkbox" onChange={(e) => handleTaskDoneChange(e, item.task_id)} checked={taskCompleted[item.task_id] ? true : false} /> : ""}
-                />
-              ))}
-            </tr>
-          </tfoot>
-        </table>
-      ) : 
-        <div className="section is-flex is-flex-direction-column is-align-items-center">
-          <h2 className="subtitle">No categories has been added yet!</h2>
-          <a href="/edit" className="has-text-primary">Click here to add a new category</a>
-        </div>
-      }
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                {choreList[getTodayDay()].map((item, ind) => (
+                  <AllottedTimeCell key={ind}
+                    value={item ? item.allottedTime : "N/A"}
+                  />
+                ))}
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                {choreList[getTodayDay()].map((item, ind) => (
+                  <AllottedTimeCell key={ind}
+                    value={item ? <input type="checkbox" onChange={(e) => handleTaskDoneChange(e, item.task_id)} checked={taskCompleted[item.task_id] ? true : false} /> : ""}
+                  />
+                ))}
+              </tr>
+            </tfoot>
+          </table>
+        ) : 
+          <div className="section is-flex is-flex-direction-column is-align-items-center">
+            <h2 className="subtitle">No categories has been added yet!</h2>
+            <a href="/edit" className="has-text-primary">Click here to add a new category</a>
+          </div>
+        }
+      </div>
     </div>
   );
 }
