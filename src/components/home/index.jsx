@@ -48,7 +48,7 @@ function Home() {
               {appConstants.days.map((day, ind) =>
               (<tr key={ind}>
                 <DayCell value={toTitleCase(day)} />
-                <TaskCountCell value={itemCount[day]} />
+                <TaskCountCell value={choreList[day].filter(chore => chore?.title && chore.title.trim() !== "").length} />
                 {choreList[day].map((chore, ind) =>
                 (<TaskCell
                   key={ind}
