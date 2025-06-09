@@ -27,8 +27,6 @@ function Home() {
     {}
   );
 
-  console.log(taskCompleted);
-
   const handleTaskDoneChange = (event, task_id) => {
     setTaskCompleted((prevState) => {
       return {
@@ -85,10 +83,12 @@ function Home() {
                 <td></td>
                 <td>
                   {formatTime(
-                    choreList[getTodayDay()].reduce(
+                    (choreList[getTodayDay()] || []).reduce(
                       (acc, curr) =>
                         acc +
-                        curr.allottedTime * appConstants.pomodoroMultiplier,
+                        (curr?.allottedTime
+                          ? curr.allottedTime * appConstants.pomodoroMultiplier
+                          : 0),
                       0
                     )
                   )}
