@@ -81,18 +81,26 @@ function Home() {
             <tfoot>
               <tr>
                 <td></td>
-                <td>
-                  {formatTime(
-                    (choreList[getTodayDay()] || []).reduce(
-                      (acc, curr) =>
-                        acc +
-                        (curr?.allottedTime
-                          ? curr.allottedTime * appConstants.pomodoroMultiplier
-                          : 0),
-                      0
-                    )
-                  )}
-                </td>
+                  <td
+                    className='has-text-centered'
+                  >
+                  <div className=" has-background-danger  has-text-black has-text-weight-bold"
+                    style={{
+                      borderRadius: '5px',
+                      padding: '0.125rem',
+                    }}>
+                    {formatTime(
+                      (choreList[getTodayDay()] || []).reduce(
+                        (acc, curr) =>
+                          acc +
+                          (curr?.allottedTime
+                            ? curr.allottedTime * appConstants.pomodoroMultiplier
+                            : 0),
+                        0
+                      )
+                    )}
+                  </div>
+                  </td>
                 {choreList[getTodayDay()].map((item, ind) => (
                   <AllottedTimeCell
                     key={ind}
