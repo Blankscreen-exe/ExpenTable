@@ -5,7 +5,7 @@ function AllottedTimeCell(props) {
     const {value} = props;
 
   return (
-    <td>{value}</td>
+    <td className="allotted-time-cell">{value}</td>
   )
 }
 
