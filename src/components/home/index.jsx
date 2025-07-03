@@ -125,6 +125,7 @@ function Home() {
                       item ? (
                         <input
                           type="checkbox"
+                          className="custom-task-checkbox"
                           onChange={(e) =>
                             handleTaskDoneChange(e, item.task_id)
                           }
