@@ -179,8 +179,8 @@ button:focus-visible {
   opacity: 1;
 }
 
-.allotted-time-cell {
-  display: flex;
+.allotted-time-cell > div {
+  /* display: flex; */
   justify-content: center;
   align-items: center;
 }
