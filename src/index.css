@@ -178,9 +178,3 @@ button:focus-visible {
 .custom-task-checkbox:checked::after {
   opacity: 1;
 }
-
-.allotted-time-cell > div {
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-}

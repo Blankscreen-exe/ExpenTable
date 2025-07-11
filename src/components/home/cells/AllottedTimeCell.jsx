@@ -1,14 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 function AllottedTimeCell(props) {
-    const {value} = props;
+  const { value } = props;
 
-  return (
-    <td className="allotted-time-cell">{value}</td>
-  )
+  return <td>{value}</td>;
 }
 
-AllottedTimeCell.propTypes = {}
+AllottedTimeCell.propTypes = {};
 
-export default AllottedTimeCell
+export default AllottedTimeCell;
