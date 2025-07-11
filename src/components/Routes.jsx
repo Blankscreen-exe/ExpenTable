@@ -1,27 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 // Constants
-import appConstants from '../appConstants'
+import appConstants from "../appConstants";
 
-// Components
-import Home from './home'
-import About from './about'
-import { Form } from './form'
-import Error404 from './common/Error404'
+// Lazy-loaded Components
+const Home = lazy(() => import("./home"));
+const About = lazy(() => import("./about"));
+const Form = lazy(() => import("./form"));
+const Error404 = lazy(() => import("./common/Error404"));
 
-function RoutesList(props) {
+function RoutesList() {
   return (
-    <Routes>
-        <Route path={appConstants.routes.home} element={<Home/>}/>
-        <Route path={appConstants.routes.about} element={<About/>}/>
-        <Route path={appConstants.routes.form} element={<Form/>}/>
-        <Route path={"*"} element={<Error404/>}/>
-    </Routes>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path={appConstants.routes.home} element={<Home />} />
+        <Route path={appConstants.routes.about} element={<About />} />
+        <Route path={appConstants.routes.form} element={<Form />} />
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    </Suspense>
+  );
 }
 
-RoutesList.propTypes = {}
-
-export default RoutesList
+RoutesList.propTypes = {};
+export default RoutesList;
