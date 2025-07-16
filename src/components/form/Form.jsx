@@ -6,7 +6,6 @@ function Form({
   formData,
   selectedCategory,
   handleSelectChange,
-  priorityValue,
   handlePriorityChange,
   days,
   handleDaysInputChange,
@@ -60,7 +59,7 @@ function Form({
                     <Select
                       name="priority"
                       id="priority"
-                      value={priorityValue}
+                      value={selectedCategory.priority}
                       onChange={handlePriorityChange}
                       options={[1, 2, 3, 4, 5]}
                     />

@@ -6,19 +6,17 @@ const FormContainer = () => {
   const categoriesKey = "categories";
   const [formData, setFormData] = useLocalStorage(categoriesKey, []);
   const [modal, setModal] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(
-    formData[0]?.id || null
+  const [selectedCategory, setSelectedCategory] = useState(
+    formData[0] || null
   );
-  const selectedCategory = formData.find((c) => c.id === selectedCategoryId);
   const days = selectedCategory?.days || {};
-  const priorityValue = selectedCategory?.priority || "";
 
   // Change category when user selects a different one in the dropdown
   const handleSelectChange = (e) => {
     const categorySelected = formData.find(
       (category) => category.title === e.target.value
     );
-    setSelectedCategoryId(categorySelected.id); // Why using the ID when I can use the category directly?
+    setSelectedCategory(categorySelected); // Why using the ID when I can use the category directly?
   };
 
   // Change the priority of the category
@@ -27,7 +25,7 @@ const FormContainer = () => {
 
     setFormData((prevValue) =>
       prevValue.map((category) =>
-        selectedCategoryId === category.id
+        selectedCategory.id === category.id
           ? { ...category, priority: Number(value) }
           : category
       )
@@ -49,7 +47,7 @@ const FormContainer = () => {
 
     setFormData((prevValue) =>
       prevValue.map((category) =>
-        selectedCategoryId === category.id
+        selectedCategory.id === category.id
           ? { ...category, days: newDays }
           : category
       )
@@ -59,8 +57,16 @@ const FormContainer = () => {
   // Erase this, and create a context instead
   // Update the formData state when the modal closes
   const closeModal = (newFormData, modifiedCategoryId) => {
+    if(modifiedCategoryId) {
+      const category = formData.find(category => category.id === modifiedCategoryId);
+      console.log(category);
+
+      setSelectedCategory(category);
+    } else {
+      setSelectedCategory(newFormData[0] ?? null);
+    }
+
     setFormData(newFormData);
-    setSelectedCategoryId(modifiedCategoryId ?? newFormData[0]?.id ?? null);
     setModal(false);
   };
 
@@ -72,7 +78,6 @@ const FormContainer = () => {
           formData,
           selectedCategory,
           handleSelectChange,
-          priorityValue,
           handlePriorityChange,
           days,
           handleDaysInputChange,
@@ -80,7 +85,7 @@ const FormContainer = () => {
         openModal={() => setModal(true)}
       />
       {modal && (
-        <ModalContainer categories={formData} setCategories={setFormData} currentCategoryId={selectedCategoryId} closeModal={closeModal} />
+        <ModalContainer categories={formData} setCategories={setFormData} currentCategoryId={selectedCategory.id} closeModal={closeModal} />
       )}
     </section>
   );
