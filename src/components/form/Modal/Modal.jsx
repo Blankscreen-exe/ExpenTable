@@ -3,9 +3,7 @@ import { useLocalStorage } from '../../../customHooks';
 import { Input, Select, Button, DeleteModal } from "../index";
 import "./Modal.css";
 
-function Modal({ currentCategoryId, closeModal }) {
-    const categoriesKey = "categories";
-    const [categories, setCategories] = useLocalStorage(categoriesKey, []);
+function Modal({ currentCategoryId, closeModal, categories, setCategories }) {
     const [lastModifiedCategoryId, setLastModifiedCategoryId] = useState(currentCategoryId);
     const [warnThisIdTitle, setTitleWarning] = useState("");
     const [warnThisIdPriority, setPriorityWarning] = useState("");
