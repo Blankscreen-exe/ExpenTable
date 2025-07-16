@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocalStorage } from "../../customHooks";
-import { Form, Modal } from "./index"
+import { Form, ModalContainer } from "./index";
 
 const FormContainer = () => {
   const categoriesKey = "categories";
@@ -80,7 +80,7 @@ const FormContainer = () => {
         openModal={() => setModal(true)}
       />
       {modal && (
-        <Modal categories={formData} setCategories={setFormData} currentCategoryId={selectedCategoryId} closeModal={closeModal} />
+        <ModalContainer categories={formData} setCategories={setFormData} currentCategoryId={selectedCategoryId} closeModal={closeModal} />
       )}
     </section>
   );
