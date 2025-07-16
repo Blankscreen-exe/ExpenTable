@@ -3,10 +3,10 @@ import { useLocalStorage } from '../../../customHooks';
 import { Input, Select, Button, DeleteModal } from "../index";
 import "./Modal.css";
 
-function Modal(props) {
+function Modal({ currentCategoryId, closeModal }) {
     const categoriesKey = "categories";
     const [categories, setCategories] = useLocalStorage(categoriesKey, []);
-    const [lastModifiedCategoryId, setLastModifiedCategoryId] = useState(props.currentCategoryId);
+    const [lastModifiedCategoryId, setLastModifiedCategoryId] = useState(currentCategoryId);
     const [warnThisIdTitle, setTitleWarning] = useState("");
     const [warnThisIdPriority, setPriorityWarning] = useState("");
     const [repeatedTitleWarning, setRepeatedTitleWarning] = useState("");
@@ -50,7 +50,7 @@ function Modal(props) {
                 category.id === id ? { ...category, title: value } : category
             )
         );
-    }
+    };
 
     const handlePriorityChange = (e) => {
         const { id, value } = e.target;
@@ -74,9 +74,7 @@ function Modal(props) {
     }
 
     const closeDeleteModal = (result) => {
-        const stillExists = result.some(category => category.id === lastModifiedCategoryId);
-
-        if (!stillExists) {
+        if (result) {
             setLastModifiedCategoryId(null);
         }
 
@@ -90,24 +88,24 @@ function Modal(props) {
 
         for (const category of categories) {
             if (!invalidTitle && !category.title) {
-                invalidTitle = category;
+                invalidTitle = category.id;
             }
 
             if (!invalidPriority && !category.priority) {
-                invalidPriority = category;
+                invalidPriority = category.id;
             }
 
             if (invalidTitle && invalidPriority) break;
         }
 
         if (invalidTitle || invalidPriority) {
-            if (invalidTitle) setTitleWarning(invalidTitle.id);
-            if (invalidPriority) setPriorityWarning(invalidPriority.id);
+            if (invalidTitle) setTitleWarning(invalidTitle);
+            if (invalidPriority) setPriorityWarning(invalidPriority);
 
             return;
         }
 
-        props.closeModal(categories, lastModifiedCategoryId);
+        closeModal(categories, lastModifiedCategoryId);
     }
 
     return (

@@ -2,14 +2,14 @@ import "./DeleteModal.css";
 import { Button } from "../index";
 import { useEffect, useState } from "react";
 
-function DeleteModal(props) {
+function DeleteModal({ allCategories, categoryToDeleteId, closeDeleteModal }) {
     const [confirmDeletion, setConfirmDeletion] = useState(false);
-    const categoryToDelete = props.allCategories.find(category => category.id === props.categoryToDeleteId)
+    const categoryToDelete = allCategories.find(category => category.id === categoryToDeleteId)
 
     useEffect(() => {
         if (confirmDeletion) {
-            const result = props.allCategories.filter(category => category.id !== categoryToDelete.id);
-            props.closeDeleteModal(result);
+            const result = allCategories.filter(category => category.id !== categoryToDelete.id);
+            closeDeleteModal(result);
         }
     }, [confirmDeletion]);
 
@@ -21,7 +21,7 @@ function DeleteModal(props) {
                     <Button className="is-primary" onClick={() => setConfirmDeletion(true)} content="Yes" />
                 </div>
                 <div className="control">
-                    <Button className="is-dark is-outlined" onClick={() => props.closeDeleteModal(null)} content="No" />
+                    <Button className="is-dark is-outlined" onClick={() => closeDeleteModal(null)} content="No" />
                 </div>
             </div>
         </div>
