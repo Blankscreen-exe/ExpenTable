@@ -6,6 +6,7 @@ import "./Form.css";
 
 function Form() {
     const categoriesKey = "categories";
+    const { days: weekDays, fullDays: fullWeekDays } = appConstants;
     const [formData, setFormData] = useLocalStorage(categoriesKey, []);
     const [modal, setModal] = useState(false);
     const [selectedCategoryId, setCategoryId] = useState(formData[0]?.id || null);
@@ -13,10 +14,6 @@ function Form() {
     const selectedCategory = formData.find(c => c.id === selectedCategoryId);
     const days = selectedCategory?.days || {};
     const priorityValue = selectedCategory?.priority || "";
-
-    // All days of the week
-    const weekDays = appConstants.days;
-    const fullWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
     // Change category when user selects a different one in the dropdown
     const handleSelectChange = (e) => {
