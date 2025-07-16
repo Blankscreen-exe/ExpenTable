@@ -7,7 +7,7 @@ import appConstants from "../appConstants";
 // Lazy-loaded Components
 const Home = lazy(() => import("./home"));
 const About = lazy(() => import("./about"));
-const Form = lazy(() => import("./form"));
+const Form = lazy(() => import("./form/Form"));
 const Error404 = lazy(() => import("./common/Error404"));
 
 function RoutesList() {
