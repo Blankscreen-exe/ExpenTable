@@ -16,7 +16,7 @@ const FormContainer = () => {
     const categorySelected = formData.find(
       (category) => category.title === e.target.value
     );
-    setSelectedCategory(categorySelected); // Why using the ID when I can use the category directly?
+    setSelectedCategory(categorySelected);
   };
 
   // Change the priority of the category
@@ -54,7 +54,6 @@ const FormContainer = () => {
     );
   };
 
-  // Erase this, and create a context instead
   // Update the formData state when the modal closes
   const closeModal = (newFormData, modifiedCategoryId) => {
     if(modifiedCategoryId) {

@@ -7,9 +7,9 @@ function Modal({
   addCategoryHandler,
   handleCloseModal,
   handleTitleChange,
-  warnThisIdTitle,
+  titleWarning,
   repeatedTitleWarning,
-  warnThisIdPriority,
+  priorityWarning,
   handlePriorityChange,
   checkDeleteAnswer,
 }) {
@@ -59,7 +59,7 @@ function Modal({
                     placeholder="Title"
                     value={category.title}
                     className={
-                      warnThisIdTitle === category.id ||
+                      titleWarning === category.id ||
                       repeatedTitleWarning === category.id
                         ? "is-danger warning-animation"
                         : ""
@@ -67,7 +67,7 @@ function Modal({
                   />
                   <span
                     className={`has-text-danger ${
-                      warnThisIdTitle === category.id
+                      titleWarning === category.id
                         ? "is-display-block"
                         : "is-display-none"
                     }`}
@@ -87,7 +87,7 @@ function Modal({
                 <div className="control">
                   <div
                     className={
-                      warnThisIdPriority === category.id
+                      priorityWarning === category.id
                         ? "select is-danger warning-animation"
                         : "select is-primary"
                     }
@@ -103,7 +103,7 @@ function Modal({
                   </div>
                   <span
                     className={`has-text-danger ${
-                      warnThisIdPriority === category.id
+                      priorityWarning === category.id
                         ? "is-display-block"
                         : "is-display-none"
                     }`}

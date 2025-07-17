@@ -2,11 +2,16 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { DeleteModal } from "../index";
 
-const ModalContainer = ({ categories, currentCategoryId, setCategories, closeModal }) => {
+const ModalContainer = ({
+  categories,
+  currentCategoryId,
+  setCategories,
+  closeModal,
+}) => {
   const [lastModifiedCategoryId, setLastModifiedCategoryId] =
     useState(currentCategoryId);
-  const [warnThisIdTitle, setTitleWarning] = useState("");
-  const [warnThisIdPriority, setPriorityWarning] = useState("");
+  const [titleWarning, setTitleWarning] = useState("");
+  const [priorityWarning, setPriorityWarning] = useState("");
   const [repeatedTitleWarning, setRepeatedTitleWarning] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState("");
@@ -23,8 +28,6 @@ const ModalContainer = ({ categories, currentCategoryId, setCategories, closeMod
       days: {},
     };
 
-    setTitleWarning("");
-    setPriorityWarning("");
     setCategories((prevValue) => [newCategory, ...prevValue]);
   };
 
@@ -32,29 +35,42 @@ const ModalContainer = ({ categories, currentCategoryId, setCategories, closeMod
     const id = e.target.dataset.id;
     const value = e.target.value;
     const changedCategory = categories.find((category) => category.id === id);
+    let repeatedTitles = false; // Had to create this variable because the last condition to setCategories can't rely on repeatedTitleWarning since it's an state
 
-    setRepeatedTitleWarning("");
+    if (repeatedTitleWarning === id) {
+      setRepeatedTitleWarning("");
+    }
+
+    if (titleWarning === id) {
+      setTitleWarning("");
+    }
 
     categories.forEach((category) => {
       if (category.title === value) {
+        repeatedTitles = true;
         setRepeatedTitleWarning(changedCategory.id);
       }
     });
 
-    setTitleWarning("");
     setLastModifiedCategoryId(id);
-    setCategories((prevValue) =>
-      prevValue.map((category) =>
-        category.id === id ? { ...category, title: value } : category
-      )
-    );
+
+    if (!repeatedTitles && !priorityWarning) {
+      setCategories((prevValue) =>
+        prevValue.map((category) =>
+          category.id === id ? { ...category, title: value } : category
+        )
+      );
+    }
   };
 
   const handlePriorityChange = (e) => {
     const { id, value } = e.target;
     const numValue = Number(value);
 
-    setPriorityWarning("");
+    if (priorityWarning === id) {
+      setPriorityWarning("");
+    }
+
     setLastModifiedCategoryId(id);
     setCategories((prevValue) =>
       prevValue.map((category) =>
@@ -72,6 +88,9 @@ const ModalContainer = ({ categories, currentCategoryId, setCategories, closeMod
   const closeDeleteModal = (result) => {
     if (result) {
       setLastModifiedCategoryId(null);
+
+      if (categoryToDelete === titleWarning) setTitleWarning("");
+      if (categoryToDelete === priorityWarning) setPriorityWarning("");
     }
 
     setCategories((prevValue) => (result ? result : prevValue));
@@ -106,19 +125,19 @@ const ModalContainer = ({ categories, currentCategoryId, setCategories, closeMod
 
   return (
     <>
-      <Modal 
-      {...{
-        addCategoryHandler,
-        handleCloseModal,
-        categories,
-        handleTitleChange,
-        warnThisIdTitle,
-        repeatedTitleWarning,
-        warnThisIdPriority,
-        handlePriorityChange,
-        checkDeleteAnswer,
-        deleteModal
-      }}
+      <Modal
+        {...{
+          addCategoryHandler,
+          handleCloseModal,
+          categories,
+          handleTitleChange,
+          titleWarning,
+          repeatedTitleWarning,
+          priorityWarning,
+          handlePriorityChange,
+          checkDeleteAnswer,
+          deleteModal,
+        }}
       />
       {deleteModal && (
         <DeleteModal
