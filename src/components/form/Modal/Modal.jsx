@@ -9,7 +9,6 @@ function Modal({
   handleTitleChange,
   titleWarning,
   repeatedTitleWarning,
-  priorityWarning,
   handlePriorityChange,
   checkDeleteAnswer,
 }) {
@@ -85,13 +84,7 @@ function Modal({
                   </span>
                 </div>
                 <div className="control">
-                  <div
-                    className={
-                      priorityWarning === category.id
-                        ? "select is-danger warning-animation"
-                        : "select is-primary"
-                    }
-                  >
+                  <div className="select is-primary">
                     <Select
                       onChange={handlePriorityChange}
                       name={`priority-${index}`}
@@ -101,15 +94,6 @@ function Modal({
                       placeholder="Priority"
                     />
                   </div>
-                  <span
-                    className={`has-text-danger ${
-                      priorityWarning === category.id
-                        ? "is-display-block"
-                        : "is-display-none"
-                    }`}
-                  >
-                    Please enter a priority!
-                  </span>
                 </div>
                 <div className="control">
                   <Button

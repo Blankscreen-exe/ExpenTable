@@ -15,7 +15,7 @@ function Form({
 
   return (
     <div className="is-flex is-flex-direction-column is-align-items-center">
-      {formData.length ? (
+      {selectedCategory ? (
         <form className="form">
           <div className="field is-grouped is-justify-content-space-between is-flex-wrap-wrap">
             <div className="field is-horizontal">
@@ -130,7 +130,7 @@ function Form({
           </h2>
           <Button
             className="is-primary is-outlined"
-            onClick={() => setModal(true)}
+            onClick={openModal}
             content="Create a new category"
           />
         </div>

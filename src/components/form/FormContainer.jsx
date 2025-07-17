@@ -84,7 +84,7 @@ const FormContainer = () => {
         openModal={() => setModal(true)}
       />
       {modal && (
-        <ModalContainer categories={formData} setCategories={setFormData} currentCategoryId={selectedCategory.id} closeModal={closeModal} />
+        <ModalContainer categories={formData} setCategories={setFormData} currentCategoryId={selectedCategory?.id || null} closeModal={closeModal} />
       )}
     </section>
   );

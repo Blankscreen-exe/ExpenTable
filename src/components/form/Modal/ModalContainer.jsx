@@ -11,19 +11,16 @@ const ModalContainer = ({
   const [lastModifiedCategoryId, setLastModifiedCategoryId] =
     useState(currentCategoryId);
   const [titleWarning, setTitleWarning] = useState("");
-  const [priorityWarning, setPriorityWarning] = useState("");
   const [repeatedTitleWarning, setRepeatedTitleWarning] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState("");
 
   const addCategoryHandler = () => {
-    const lastCategoryId = categories[0]?.id || "id0";
-    const lastIdNumber = Number(lastCategoryId.slice(2));
-    const newId = `id${lastIdNumber + 1}`;
+    const newId = Date.now().toString();
     const newCategory = {
       id: newId,
       title: "",
-      priority: 0,
+      priority: 1,
       done: false,
       days: {},
     };
@@ -54,7 +51,7 @@ const ModalContainer = ({
 
     setLastModifiedCategoryId(id);
 
-    if (!repeatedTitles && !priorityWarning) {
+    if (!repeatedTitles) {
       setCategories((prevValue) =>
         prevValue.map((category) =>
           category.id === id ? { ...category, title: value } : category
@@ -66,10 +63,6 @@ const ModalContainer = ({
   const handlePriorityChange = (e) => {
     const { id, value } = e.target;
     const numValue = Number(value);
-
-    if (priorityWarning === id) {
-      setPriorityWarning("");
-    }
 
     setLastModifiedCategoryId(id);
     setCategories((prevValue) =>
@@ -90,7 +83,6 @@ const ModalContainer = ({
       setLastModifiedCategoryId(null);
 
       if (categoryToDelete === titleWarning) setTitleWarning("");
-      if (categoryToDelete === priorityWarning) setPriorityWarning("");
     }
 
     setCategories((prevValue) => (result ? result : prevValue));
@@ -99,23 +91,16 @@ const ModalContainer = ({
 
   const handleCloseModal = () => {
     let invalidTitle = null;
-    let invalidPriority = null;
 
     for (const category of categories) {
       if (!invalidTitle && !category.title) {
         invalidTitle = category.id;
+        break;
       }
-
-      if (!invalidPriority && !category.priority) {
-        invalidPriority = category.id;
-      }
-
-      if (invalidTitle && invalidPriority) break;
     }
 
-    if (invalidTitle || invalidPriority) {
+    if (invalidTitle) {
       if (invalidTitle) setTitleWarning(invalidTitle);
-      if (invalidPriority) setPriorityWarning(invalidPriority);
 
       return;
     }
@@ -133,7 +118,6 @@ const ModalContainer = ({
           handleTitleChange,
           titleWarning,
           repeatedTitleWarning,
-          priorityWarning,
           handlePriorityChange,
           checkDeleteAnswer,
           deleteModal,
