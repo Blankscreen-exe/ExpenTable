@@ -6,9 +6,8 @@ function Modal({
   deleteModal,
   addCategoryHandler,
   handleCloseModal,
+  warnings,
   handleTitleChange,
-  titleWarning,
-  repeatedTitleWarning,
   handlePriorityChange,
   checkDeleteAnswer,
 }) {
@@ -58,15 +57,15 @@ function Modal({
                     placeholder="Title"
                     value={category.title}
                     className={
-                      titleWarning === category.id ||
-                      repeatedTitleWarning === category.id
+                      warnings[category.id]?.titleWarning ||
+                      warnings[category.id]?.repeatedTitleWarning
                         ? "is-danger warning-animation"
                         : ""
                     }
                   />
                   <span
                     className={`has-text-danger ${
-                      titleWarning === category.id
+                      warnings[category.id]?.titleWarning
                         ? "is-display-block"
                         : "is-display-none"
                     }`}
@@ -75,7 +74,7 @@ function Modal({
                   </span>
                   <span
                     className={`has-text-danger ${
-                      repeatedTitleWarning === category.id
+                      warnings[category.id]?.repeatedTitleWarning
                         ? "is-display-block"
                         : "is-display-none"
                     }`}

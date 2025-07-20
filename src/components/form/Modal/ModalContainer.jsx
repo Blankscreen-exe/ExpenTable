@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import Modal from "./Modal";
 import { DeleteModal } from "../index";
+import { WarningsReducer, warningsCases } from "./ModalReducers";
+
+const { setTitleWarning, setRepeatedTitleWarning, removeId } = warningsCases;
 
 const ModalContainer = ({
   categories,
@@ -10,8 +13,7 @@ const ModalContainer = ({
 }) => {
   const [lastModifiedCategoryId, setLastModifiedCategoryId] =
     useState(currentCategoryId);
-  const [titleWarning, setTitleWarning] = useState("");
-  const [repeatedTitleWarning, setRepeatedTitleWarning] = useState("");
+  const [warnings, dispatch] = useReducer(WarningsReducer, {});
   const [deleteModal, setDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState("");
 
@@ -31,25 +33,28 @@ const ModalContainer = ({
   const handleTitleChange = (e) => {
     const id = e.target.dataset.id;
     const value = e.target.value;
-    const changedCategory = categories.find((category) => category.id === id);
     let repeatedTitles = false; // Had to create this variable because the last condition to setCategories can't rely on repeatedTitleWarning since it's an state
 
-    if (repeatedTitleWarning === id) {
-      setRepeatedTitleWarning("");
+    if (warnings[id]?.repeatedTitleWarning) {
+      dispatch({ type: setRepeatedTitleWarning, id: id, value: false });
     }
 
-    if (titleWarning === id) {
-      setTitleWarning("");
+    if (warnings[id]?.titleWarning) {
+      dispatch({ type: setTitleWarning, id: id, value: false });
     }
-
-    categories.forEach((category) => {
-      if (category.title === value) {
-        repeatedTitles = true;
-        setRepeatedTitleWarning(changedCategory.id);
-      }
-    });
 
     setLastModifiedCategoryId(id);
+
+    categories.forEach((category) => {
+      if (category.title === value && value) { // If the title is empty, it won't be considered a repeated title
+        dispatch({
+          type: setRepeatedTitleWarning,
+          id: id,
+          value: true,
+        });
+        repeatedTitles = true;
+      }
+    });
 
     if (!repeatedTitles) {
       setCategories((prevValue) =>
@@ -82,7 +87,9 @@ const ModalContainer = ({
     if (result) {
       setLastModifiedCategoryId(null);
 
-      if (categoryToDelete === titleWarning) setTitleWarning("");
+      if (categoryToDelete in warnings) {
+        dispatch({ type: removeId, id: categoryToDelete });
+      }
     }
 
     setCategories((prevValue) => (result ? result : prevValue));
@@ -90,18 +97,17 @@ const ModalContainer = ({
   };
 
   const handleCloseModal = () => {
-    let invalidTitle = null;
+    let invalidTitleId = null;
 
     for (const category of categories) {
-      if (!invalidTitle && !category.title) {
-        invalidTitle = category.id;
+      if (!invalidTitleId && !category.title) {
+        invalidTitleId = category.id;
         break;
       }
     }
 
-    if (invalidTitle) {
-      if (invalidTitle) setTitleWarning(invalidTitle);
-
+    if (invalidTitleId) {
+      dispatch({ type: setTitleWarning, id: invalidTitleId, value: true });
       return;
     }
 
@@ -116,8 +122,7 @@ const ModalContainer = ({
           handleCloseModal,
           categories,
           handleTitleChange,
-          titleWarning,
-          repeatedTitleWarning,
+          warnings,
           handlePriorityChange,
           checkDeleteAnswer,
           deleteModal,
