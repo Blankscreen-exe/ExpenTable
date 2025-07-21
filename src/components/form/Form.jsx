@@ -1,9 +1,9 @@
 import "./Form.css";
 import { Input, Select, Button } from "./index";
 import appConstants from "../../appConstants";
+import { useCategories } from "./FormContext";
 
 function Form({
-  formData,
   selectedCategory,
   handleSelectChange,
   handlePriorityChange,
@@ -12,6 +12,7 @@ function Form({
   openModal
 }) {
   const { days: weekDays, fullDays: fullWeekDays } = appConstants;
+  const { categories } = useCategories();
 
   return (
     <div className="is-flex is-flex-direction-column is-align-items-center">
@@ -33,7 +34,7 @@ function Form({
                         onChange={handleSelectChange}
                         name="categories"
                         id="categories-dropdown"
-                        options={formData.map((item) => item.title)}
+                        options={categories.map((item) => item.title)}
                       />
                     </div>
                   </div>

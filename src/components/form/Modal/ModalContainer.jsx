@@ -2,17 +2,13 @@ import { useReducer, useState } from "react";
 import Modal from "./Modal";
 import { DeleteModal } from "../index";
 import { WarningsReducer, warningsCases } from "./ModalReducers";
+import { useCategories } from "../FormContext";
 
 const { setTitleWarning, setRepeatedTitleWarning, removeId } = warningsCases;
 
-const ModalContainer = ({
-  categories,
-  currentCategoryId,
-  setCategories,
-  closeModal,
-}) => {
-  const [lastModifiedCategoryId, setLastModifiedCategoryId] =
-    useState(currentCategoryId);
+const ModalContainer = ({ closeModal }) => {
+  const [lastModifiedCategoryId, setLastModifiedCategoryId] = useState("");
+  const { categories, setCategories } = useCategories();
   const [warnings, dispatch] = useReducer(WarningsReducer, {});
   const [deleteModal, setDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState("");
@@ -46,7 +42,8 @@ const ModalContainer = ({
     setLastModifiedCategoryId(id);
 
     categories.forEach((category) => {
-      if (category.title === value && value) { // If the title is empty, it won't be considered a repeated title
+      if (category.title === value && value) {
+        // If the title is empty, it won't be considered a repeated title
         dispatch({
           type: setRepeatedTitleWarning,
           id: id,
@@ -111,7 +108,7 @@ const ModalContainer = ({
       return;
     }
 
-    closeModal(categories, lastModifiedCategoryId);
+    closeModal(categories, lastModifiedCategoryId); // No necessary to pass the categories since we have setCategories in this component, we can set it directly here
   };
 
   return (
@@ -131,7 +128,6 @@ const ModalContainer = ({
       {deleteModal && (
         <DeleteModal
           closeDeleteModal={closeDeleteModal}
-          allCategories={categories}
           categoryToDeleteId={categoryToDelete}
         />
       )}

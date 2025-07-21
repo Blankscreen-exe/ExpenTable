@@ -1,14 +1,16 @@
 import "./DeleteModal.css";
 import { Button } from "../index";
 import { useEffect, useState } from "react";
+import { useCategories } from "../FormContext";
 
-function DeleteModal({ allCategories, categoryToDeleteId, closeDeleteModal }) {
+function DeleteModal({ categoryToDeleteId, closeDeleteModal }) {
+    const { categories } = useCategories();
     const [confirmDeletion, setConfirmDeletion] = useState(false);
-    const categoryToDelete = allCategories.find(category => category.id === categoryToDeleteId)
+    const categoryToDelete = categories.find(category => category.id === categoryToDeleteId)
 
     useEffect(() => {
         if (confirmDeletion) {
-            const result = allCategories.filter(category => category.id !== categoryToDelete.id);
+            const result = categories.filter(category => category.id !== categoryToDelete.id); // Dude WTF! You already have categoryToDeleteId in props
             closeDeleteModal(result);
         }
     }, [confirmDeletion]);

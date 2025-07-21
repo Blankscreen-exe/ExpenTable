@@ -1,8 +1,8 @@
+import { useCategories } from "../FormContext";
 import { Input, Select, Button } from "../index";
 import "./Modal.css";
 
 function Modal({
-  categories,
   deleteModal,
   addCategoryHandler,
   handleCloseModal,
@@ -11,6 +11,7 @@ function Modal({
   handlePriorityChange,
   checkDeleteAnswer,
 }) {
+  const { categories } = useCategories();
   return (
     <div className="form-modal-card">
       <div className={`modal-overlay ${deleteModal ? "open" : ""}`} />

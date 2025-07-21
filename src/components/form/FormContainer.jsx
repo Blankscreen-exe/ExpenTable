@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { useLocalStorage } from "../../customHooks";
 import { Form, ModalContainer } from "./index";
+import { useCategories } from "./FormContext";
 
 const FormContainer = () => {
-  const categoriesKey = "categories";
-  const [formData, setFormData] = useLocalStorage(categoriesKey, []);
+  const { categories, setCategories } = useCategories();
   const [modal, setModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(
-    formData[0] || null
+    categories[0] || null
   );
   const days = selectedCategory?.days || {};
 
   // Change category when user selects a different one in the dropdown
   const handleSelectChange = (e) => {
-    const categorySelected = formData.find(
+    const categorySelected = categories.find(
       (category) => category.title === e.target.value
     );
     setSelectedCategory(categorySelected);
@@ -23,7 +22,7 @@ const FormContainer = () => {
   const handlePriorityChange = (e) => {
     const { value } = e.target;
 
-    setFormData((prevValue) =>
+    setCategories((prevValue) =>
       prevValue.map((category) =>
         selectedCategory.id === category.id
           ? { ...category, priority: Number(value) }
@@ -45,7 +44,7 @@ const FormContainer = () => {
       },
     };
 
-    setFormData((prevValue) =>
+    setCategories((prevValue) =>
       prevValue.map((category) =>
         selectedCategory.id === category.id
           ? { ...category, days: newDays }
@@ -54,27 +53,28 @@ const FormContainer = () => {
     );
   };
 
-  // Update the formData state when the modal closes
-  const closeModal = (newFormData, modifiedCategoryId) => {
-    if(modifiedCategoryId) {
-      const category = formData.find(category => category.id === modifiedCategoryId);
+  // Update the categories state when the modal closes
+  const closeModal = (newCategories, modifiedCategoryId) => {
+    if (modifiedCategoryId) {
+      const category = categories.find(
+        (category) => category.id === modifiedCategoryId
+      );
       console.log(category);
 
       setSelectedCategory(category);
     } else {
-      setSelectedCategory(newFormData[0] ?? null);
+      setSelectedCategory(newCategories[0] ?? null);
     }
 
-    setFormData(newFormData);
+    setCategories(newCategories); // This is unnecessary, we can set the categories directly in the ModalContainer
     setModal(false);
   };
 
   return (
     <section style={{ position: "relative" }}>
       <div className={`modal-overlay ${modal ? "open" : ""}`} />
-      <Form 
+      <Form
         {...{
-          formData,
           selectedCategory,
           handleSelectChange,
           handlePriorityChange,
@@ -84,7 +84,10 @@ const FormContainer = () => {
         openModal={() => setModal(true)}
       />
       {modal && (
-        <ModalContainer categories={formData} setCategories={setFormData} currentCategoryId={selectedCategory?.id || null} closeModal={closeModal} />
+        <ModalContainer
+          currentCategoryId={selectedCategory?.id || null}
+          closeModal={closeModal}
+        />
       )}
     </section>
   );
