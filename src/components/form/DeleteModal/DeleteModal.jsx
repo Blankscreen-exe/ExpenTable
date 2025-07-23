@@ -10,7 +10,7 @@ function DeleteModal({ categoryToDeleteId, closeDeleteModal }) {
 
     useEffect(() => {
         if (confirmDeletion) {
-            const result = categories.filter(category => category.id !== categoryToDelete.id); // Dude WTF! You already have categoryToDeleteId in props
+            const result = categories.filter(category => category.id !== categoryToDeleteId);
             closeDeleteModal(result);
         }
     }, [confirmDeletion]);

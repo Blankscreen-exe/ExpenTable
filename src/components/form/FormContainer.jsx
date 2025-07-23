@@ -8,7 +8,6 @@ const FormContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     categories[0] || null
   );
-  const days = selectedCategory?.days || {};
 
   // Change category when user selects a different one in the dropdown
   const handleSelectChange = (e) => {
@@ -21,6 +20,7 @@ const FormContainer = () => {
   // Change the priority of the category
   const handlePriorityChange = (e) => {
     const { value } = e.target;
+    console.log(value);
 
     setCategories((prevValue) =>
       prevValue.map((category) =>
@@ -29,6 +29,12 @@ const FormContainer = () => {
           : category
       )
     );
+
+    // This is just for rendering purpose, because we are using this in the Form component to render the priority
+    setSelectedCategory((prevValue) => ({
+      ...prevValue,
+      priority: Number(value),
+    }));
   };
 
   // Change days state when any input triggers the onChange
@@ -37,9 +43,9 @@ const FormContainer = () => {
     const day = name.slice(0, 3);
     const property = name.slice(4, name.length);
     const newDays = {
-      ...days,
+      ...selectedCategory.days,
       [day]: {
-        ...(days[day] || {}),
+        ...(selectedCategory.days[day] || {}),
         [property]: property === "title" ? value : parseFloat(value),
       },
     };
@@ -51,22 +57,26 @@ const FormContainer = () => {
           : category
       )
     );
+
+    // This is just for rendering purpose, because we are using this in the Form component to render the input value
+    setSelectedCategory((prevValue) => ({
+      ...prevValue,
+      days: newDays,
+    }));
   };
 
   // Update the categories state when the modal closes
-  const closeModal = (newCategories, modifiedCategoryId) => {
+  const closeModal = (modifiedCategoryId) => {
     if (modifiedCategoryId) {
       const category = categories.find(
         (category) => category.id === modifiedCategoryId
       );
-      console.log(category);
 
       setSelectedCategory(category);
     } else {
-      setSelectedCategory(newCategories[0] ?? null);
+      setSelectedCategory(categories[0] ?? null);
     }
 
-    setCategories(newCategories); // This is unnecessary, we can set the categories directly in the ModalContainer
     setModal(false);
   };
 
@@ -78,7 +88,6 @@ const FormContainer = () => {
           selectedCategory,
           handleSelectChange,
           handlePriorityChange,
-          days,
           handleDaysInputChange,
         }}
         openModal={() => setModal(true)}

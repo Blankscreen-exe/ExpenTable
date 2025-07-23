@@ -90,6 +90,7 @@ const ModalContainer = ({ closeModal }) => {
     }
 
     setCategories((prevValue) => (result ? result : prevValue));
+    setCategoryToDelete("");
     setDeleteModal(false);
   };
 
@@ -108,7 +109,7 @@ const ModalContainer = ({ closeModal }) => {
       return;
     }
 
-    closeModal(categories, lastModifiedCategoryId); // No necessary to pass the categories since we have setCategories in this component, we can set it directly here
+    closeModal(lastModifiedCategoryId);
   };
 
   return (

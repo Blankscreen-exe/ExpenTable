@@ -7,7 +7,6 @@ function Form({
   selectedCategory,
   handleSelectChange,
   handlePriorityChange,
-  days,
   handleDaysInputChange,
   openModal
 }) {
@@ -16,7 +15,7 @@ function Form({
 
   return (
     <div className="is-flex is-flex-direction-column is-align-items-center">
-      {selectedCategory ? (
+      {categories.length ? (
         <form className="form">
           <div className="field is-grouped is-justify-content-space-between is-flex-wrap-wrap">
             <div className="field is-horizontal">
@@ -87,7 +86,7 @@ function Form({
                           onChange={handleDaysInputChange}
                           name={`${day}-title`}
                           id={`${day}-title`}
-                          value={days[day]?.title || ""}
+                          value={selectedCategory.days[day]?.title || ""}
                         />
                         <span className="icon custom-icon is-left">
                           <i className="fa-regular fa-pen-to-square"></i>
@@ -105,7 +104,7 @@ function Form({
                           step={0.5}
                           name={`${day}-allottedTime`}
                           id={`${day}-allotted-time`}
-                          value={days[day]?.allottedTime || ""}
+                          value={selectedCategory.days[day]?.allottedTime || ""}
                           inputMode="numeric"
                           min={0.5}
                         />
