@@ -19,7 +19,7 @@ function Form({
 
   return (
     <div className="is-flex is-flex-direction-column is-align-items-center">
-      {categories.length ? (
+      {selectedCategory ? (
         <form className="form">
           <div style={{ paddingInline: "2rem" }} className="field is-grouped is-justify-content-space-between is-flex-wrap-wrap">
             <div className="field is-horizontal">
@@ -33,7 +33,7 @@ function Form({
                   <div className="control">
                     <div className="select is-primary">
                       <Select
-                        value={selectedCategory.title}
+                        value={selectedCategory?.title || ""}
                         onChange={handleSelectChange}
                         name="categories"
                         id="categories-dropdown"
@@ -63,7 +63,7 @@ function Form({
                     <Select
                       name="priority"
                       id="priority"
-                      value={selectedCategory.priority}
+                      value={selectedCategory?.priority || 1}
                       onChange={handlePriorityChange}
                       options={[1, 2, 3, 4, 5]}
                     />

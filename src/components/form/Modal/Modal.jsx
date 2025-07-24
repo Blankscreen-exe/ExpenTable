@@ -18,20 +18,15 @@ function Modal({
       <form className="modal-content">
         <div
           style={categories.length > 0 ? { marginBottom: "1.5rem" } : {}}
-          className="is-display-flex is-justify-content-space-between is-column-gap-8"
+          className="modal-top is-display-grid is-align-items-center is-justify-content-space-between"
         >
-          <div
-            style={{ marginBottom: "0" }}
-            className="field is-display-flex is-align-items-center is-flex-wrap-wrap is-row-gap-1.5"
-          >
-            <span className="subtitle modal-span">Categories</span>
-            <div className="control modal-control">
-              <Button
-                onClick={addCategoryHandler}
-                className="is-primary is-outlined"
-                content="Add Category"
-              />
-            </div>
+          <span className="subtitle modal-span">Categories</span>
+          <div className="add-category-btn control modal-control">
+            <Button
+              onClick={addCategoryHandler}
+              className="is-primary is-outlined"
+              content="Add Category"
+            />
           </div>
           <div className="control has-icons">
             <Button
