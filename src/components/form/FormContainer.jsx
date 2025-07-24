@@ -8,6 +8,7 @@ const FormContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     categories[0] || null
   );
+  const [sliderIndex, setSliderIndex] = useState(0);
 
   // Change category when user selects a different one in the dropdown
   const handleSelectChange = (e) => {
@@ -80,11 +81,20 @@ const FormContainer = () => {
     setModal(false);
   };
 
+  const handleSliderChange = (next = true) => {
+    setSliderIndex((prevIndex) => {
+      const newIndex = next ? prevIndex + 1 : prevIndex - 1;
+      return newIndex < 0 ? 6 : newIndex % 7; // 7 because there exists 7 days
+    });
+  }
+
   return (
     <section style={{ position: "relative" }}>
       <div className={`modal-overlay ${modal ? "open" : ""}`} />
       <Form
         {...{
+          handleSliderChange,
+          sliderIndex,
           selectedCategory,
           handleSelectChange,
           handlePriorityChange,

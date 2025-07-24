@@ -1,6 +1,6 @@
 .form {
   border: 1px solid rgb(0, 209, 178);
-  padding: 2rem;
+  padding-block: 2rem;
   margin-inline: 1rem;
   min-width: 34rem;
 }

@@ -2,22 +2,26 @@ import "./Form.css";
 import { Input, Select, Button } from "./index";
 import appConstants from "../../appConstants";
 import { useCategories } from "./FormContext";
+import { useWindowSize } from "../../customHooks";
 
 function Form({
+  sliderIndex,
+  handleSliderChange,
   selectedCategory,
   handleSelectChange,
   handlePriorityChange,
   handleDaysInputChange,
-  openModal
+  openModal,
 }) {
   const { days: weekDays, fullDays: fullWeekDays } = appConstants;
   const { categories } = useCategories();
+  const size = useWindowSize();
 
   return (
     <div className="is-flex is-flex-direction-column is-align-items-center">
       {categories.length ? (
         <form className="form">
-          <div className="field is-grouped is-justify-content-space-between is-flex-wrap-wrap">
+          <div style={{ paddingInline: "2rem" }} className="field is-grouped is-justify-content-space-between is-flex-wrap-wrap">
             <div className="field is-horizontal">
               <div className="field-label is-normal">
                 <label htmlFor="categories" className="label">
@@ -69,24 +73,33 @@ function Form({
             </div>
           </div>
           <div>
-            {weekDays.map((day, index) => {
-              return (
-                <div key={day}>
+            {size.width < 601 ? (
+              <div className="is-flex is-align-items-center is-column-gap-3 px-5">
+                <button type="button" onClick={() => handleSliderChange(false)}>
+                  <i className="fa-solid fa-angle-left fa-xl"></i>
+                </button>
+                <div>
                   <hr></hr>
                   <h2 style={{ marginBottom: "1rem" }} className="subtitle">
-                    {fullWeekDays[index]}
+                    {fullWeekDays[sliderIndex]}
                   </h2>
                   <div className="field is-grouped is-flex-wrap-wrap">
                     <div className="field title-input__field">
-                      <label htmlFor={`${day}-title`} className="label">
+                      <label
+                        htmlFor={`${weekDays[sliderIndex]}-title`}
+                        className="label"
+                      >
                         Title
                       </label>
                       <div className="control has-icons-left">
                         <Input
                           onChange={handleDaysInputChange}
-                          name={`${day}-title`}
-                          id={`${day}-title`}
-                          value={selectedCategory.days[day]?.title || ""}
+                          name={`${weekDays[sliderIndex]}-title`}
+                          id={`${weekDays[sliderIndex]}-title`}
+                          value={
+                            selectedCategory.days[weekDays[sliderIndex]]
+                              ?.title || ""
+                          }
                         />
                         <span className="icon custom-icon is-left">
                           <i className="fa-regular fa-pen-to-square"></i>
@@ -94,7 +107,10 @@ function Form({
                       </div>
                     </div>
                     <div className="field allottedTime-input__field">
-                      <label htmlFor={`${day}-allottedTime`} className="label">
+                      <label
+                        htmlFor={`${weekDays[sliderIndex]}-allottedTime`}
+                        className="label"
+                      >
                         Alloted time
                       </label>
                       <div className="control has-icons-left">
@@ -102,9 +118,12 @@ function Form({
                           onChange={handleDaysInputChange}
                           type="number"
                           step={0.5}
-                          name={`${day}-allottedTime`}
-                          id={`${day}-allotted-time`}
-                          value={selectedCategory.days[day]?.allottedTime || ""}
+                          name={`${weekDays[sliderIndex]}-allottedTime`}
+                          id={`${weekDays[sliderIndex]}-allotted-time`}
+                          value={
+                            selectedCategory.days[weekDays[sliderIndex]]
+                              ?.allottedTime || ""
+                          }
                           inputMode="numeric"
                           min={0.5}
                         />
@@ -116,8 +135,66 @@ function Form({
                     </div>
                   </div>
                 </div>
-              );
-            })}
+                <button type="button" onClick={handleSliderChange}>
+                  <i className="fa-solid fa-angle-right fa-xl"></i>
+                </button>
+              </div>
+            ) : (
+              weekDays.map((day, index) => {
+                return (
+                  <div key={day} style={{ paddingInline: "2rem" }}>
+                    <hr></hr>
+                    <h2 style={{ marginBottom: "1rem" }} className="subtitle">
+                      {fullWeekDays[index]}
+                    </h2>
+                    <div className="field is-grouped is-flex-wrap-wrap">
+                      <div className="field title-input__field">
+                        <label htmlFor={`${day}-title`} className="label">
+                          Title
+                        </label>
+                        <div className="control has-icons-left">
+                          <Input
+                            onChange={handleDaysInputChange}
+                            name={`${day}-title`}
+                            id={`${day}-title`}
+                            value={selectedCategory.days[day]?.title || ""}
+                          />
+                          <span className="icon custom-icon is-left">
+                            <i className="fa-regular fa-pen-to-square"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="field allottedTime-input__field">
+                        <label
+                          htmlFor={`${day}-allottedTime`}
+                          className="label"
+                        >
+                          Alloted time
+                        </label>
+                        <div className="control has-icons-left">
+                          <Input
+                            onChange={handleDaysInputChange}
+                            type="number"
+                            step={0.5}
+                            name={`${day}-allottedTime`}
+                            id={`${day}-allotted-time`}
+                            value={
+                              selectedCategory.days[day]?.allottedTime || ""
+                            }
+                            inputMode="numeric"
+                            min={0.5}
+                          />
+                          <span className="icon custom-icon is-left is-primary">
+                            <i className="fa-regular fa-clock"></i>
+                          </span>
+                        </div>
+                        <span>* pomodoros</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </form>
       ) : (
