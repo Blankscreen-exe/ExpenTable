@@ -22,6 +22,15 @@
   width: 8rem;
 }
 
+.slider-content {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slider-loaded {
+  opacity: 1;
+}
+
 /* Media Query for tablet device */
 @media screen and (max-width: 600px) {
   .form {

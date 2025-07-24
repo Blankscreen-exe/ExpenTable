@@ -9,6 +9,7 @@ const FormContainer = () => {
     categories[0] || null
   );
   const [sliderIndex, setSliderIndex] = useState(0);
+  const [sliderLoaded, setSliderLoaded] = useState(true);
 
   // Change category when user selects a different one in the dropdown
   const handleSelectChange = (e) => {
@@ -82,11 +83,19 @@ const FormContainer = () => {
   };
 
   const handleSliderChange = (next = true) => {
-    setSliderIndex((prevIndex) => {
-      const newIndex = next ? prevIndex + 1 : prevIndex - 1;
-      return newIndex < 0 ? 6 : newIndex % 7; // 7 because there exists 7 days
-    });
-  }
+    setSliderLoaded(false);
+
+    // Delay to allow the transition effect
+    setTimeout(() => {
+      setSliderIndex((prevIndex) => {
+        const newIndex = next ? prevIndex + 1 : prevIndex - 1;
+        return newIndex < 0 ? 6 : newIndex % 7; // 7 because there exists 7 days
+      });
+
+      setSliderLoaded(true);
+    }, 300);
+
+  };
 
   return (
     <section style={{ position: "relative" }}>
@@ -95,6 +104,7 @@ const FormContainer = () => {
         {...{
           handleSliderChange,
           sliderIndex,
+          sliderLoaded,
           selectedCategory,
           handleSelectChange,
           handlePriorityChange,

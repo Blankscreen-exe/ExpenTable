@@ -6,6 +6,7 @@ import { useWindowSize } from "../../customHooks";
 
 function Form({
   sliderIndex,
+  sliderLoaded,
   handleSliderChange,
   selectedCategory,
   handleSelectChange,
@@ -78,7 +79,7 @@ function Form({
                 <button type="button" onClick={() => handleSliderChange(false)}>
                   <i className="fa-solid fa-angle-left fa-xl"></i>
                 </button>
-                <div>
+                <div className={`slider-content ${sliderLoaded ? "slider-loaded" : ""}`}>
                   <hr></hr>
                   <h2 style={{ marginBottom: "1rem" }} className="subtitle">
                     {fullWeekDays[sliderIndex]}
