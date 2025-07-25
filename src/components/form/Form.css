@@ -1,6 +1,6 @@
 .form {
   border: 1px solid rgb(0, 209, 178);
-  padding: 2rem;
+  padding-block: 2rem;
   margin-inline: 1rem;
   min-width: 34rem;
 }
@@ -20,6 +20,15 @@
 
 .allottedTime-input__field {
   width: 8rem;
+}
+
+.slider-content {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slider-loaded {
+  opacity: 1;
 }
 
 /* Media Query for tablet device */

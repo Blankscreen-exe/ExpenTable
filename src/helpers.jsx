@@ -86,3 +86,13 @@ export function formatTime(minutes) {
   
   return result || '0 min';
 }
+
+export function checkDuplication(arr, checkProperty) {
+    const property = new Set();
+
+    return arr.some(item => {
+        if (property.has(item[checkProperty])) return item;
+        property.add(item[checkProperty]);
+        return false;
+    });
+};

@@ -27,6 +27,11 @@
   transition: background-color 0.3s ease;
 }
 
+.modal-top {
+  grid-template-columns: repeat(3, max-content);
+  column-gap: 4rem;
+}
+
 .subtitle.modal-span {
   margin-block: 0;
   margin-right: 1rem;
@@ -72,13 +77,31 @@
     min-width: auto;
   }
 
+  .modal-top {
+    column-gap: 2rem;
+  }
+
   .custom-control {
     flex-basis: 100%;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 480px) {
   .form-modal-card {
     padding-inline: 1.5rem;
+  }
+
+  .modal-top {
+    grid-template-columns: repeat(2, max-content);
+    gap: 1rem;
+  }
+
+  .add-category-btn {
+    grid-row: 2;
+    grid-column: span 2;
+  }
+
+  .add-category-btn button {
+    width: 100%;
   }
 }
