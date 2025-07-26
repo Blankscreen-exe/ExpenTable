@@ -17,10 +17,11 @@ import DayCell from "./cells/DayCell";
 import TaskCountCell from "./cells/TaskCountCell";
 import TaskCell from "./cells/TaskCell";
 import AllottedTimeCell from "./cells/AllottedTimeCell";
+import { useCategories } from "../form/FormContext";
 
 function Home() {
   const [taskCategory, setTaskCategory] = useState([]);
-  const [data, setData] = useLocalStorage(appConstants.categoriesKey, []);
+  const { categories: data } = useCategories();
   const { itemNames, itemCount, choreList } = getTableStats(data);
   const [taskCompleted, setTaskCompleted] = useLocalStorage(
     appConstants.localStorageKey,
