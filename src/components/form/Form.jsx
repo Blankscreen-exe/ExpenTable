@@ -7,6 +7,7 @@ import { useWindowSize } from "../../customHooks";
 function Form({
   sliderIndex,
   sliderLoaded,
+  handleDaySelection,
   handleSliderChange,
   selectedCategory,
   handleSelectChange,
@@ -81,15 +82,65 @@ function Form({
               <div>
                 <div className="drag-scroll">
                   <div className="dragged-items">
-                    <button className="day-switch">M</button>
-                    <button className="day-switch">T</button>
-                    <button className="day-switch">W</button>
-                    <button className="day-switch">T</button>
-                    <button className="day-switch">F</button>
-                    <button className="day-switch">S</button>
-                    <button className="day-switch">S</button>
+                    <button
+                      type="button"
+                      data-index={0}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      MON
+                    </button>
+                    <button
+                      type="button"
+                      data-index={1}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      TUE
+                    </button>
+                    <button
+                      type="button"
+                      data-index={2}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      WED
+                    </button>
+                    <button
+                      type="button"
+                      data-index={3}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      THU
+                    </button>
+                    <button
+                      type="button"
+                      data-index={4}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      FRI
+                    </button>
+                    <button
+                      type="button"
+                      data-index={5}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      SAT
+                    </button>
+                    <button
+                      type="button"
+                      data-index={6}
+                      onClick={handleDaySelection}
+                      className="day-switch"
+                    >
+                      SUN
+                    </button>
                   </div>
                 </div>
+                <hr style={{ width: "80%", marginInline: "auto" }}></hr>
                 <div className="is-flex is-align-items-center is-column-gap-3 px-5">
                   <button
                     type="button"
@@ -102,7 +153,6 @@ function Form({
                       sliderLoaded ? "slider-loaded" : ""
                     }`}
                   >
-                    <hr></hr>
                     <h2 style={{ marginBottom: "1rem" }} className="subtitle">
                       {fullWeekDays[sliderIndex]}
                     </h2>

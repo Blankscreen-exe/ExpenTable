@@ -41,7 +41,7 @@
 }
 
 .day-switch {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   border-right: 2px solid hsl(221, 14%, 14%);
   padding-inline: 1.5rem;
