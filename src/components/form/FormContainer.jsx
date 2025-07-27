@@ -82,6 +82,17 @@ const FormContainer = () => {
     setModal(false);
   };
 
+  const handleDaySelection = (e) => {
+    const index = parseInt(e.target.dataset.index, 10);
+    setSliderLoaded(false);
+
+    // Delay to allow the transition effect
+    setTimeout(() => {
+      setSliderIndex(index);
+      setSliderLoaded(true);
+    }, 300);
+  }
+
   const handleSliderChange = (next = true) => {
     setSliderLoaded(false);
 
@@ -102,6 +113,7 @@ const FormContainer = () => {
       <div className={`modal-overlay ${modal ? "open" : ""}`} />
       <Form
         {...{
+          handleDaySelection,
           handleSliderChange,
           sliderIndex,
           sliderLoaded,

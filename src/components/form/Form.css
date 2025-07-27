@@ -1,7 +1,6 @@
 .form {
   border: 1px solid rgb(0, 209, 178);
   padding-block: 2rem;
-  margin-inline: 1rem;
   min-width: 34rem;
 }
 
@@ -22,6 +21,36 @@
   width: 8rem;
 }
 
+.drag-scroll {
+  overflow-x: auto;
+  width: 100%;
+  margin-top: 1.5rem;
+  scrollbar-width: none;
+}
+
+.drag-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.dragged-items {
+  display: flex;
+  justify-content: center;
+  padding-inline: 1rem;
+  margin: auto;
+  width: min-content;
+}
+
+.day-switch {
+  font-size: 1rem;
+  font-weight: bold;
+  border-right: 2px solid hsl(221, 14%, 14%);
+  padding-inline: 1.5rem;
+}
+
+.day-switch:last-child {
+  border-right: none;
+}
+
 .slider-content {
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -34,6 +63,7 @@
 /* Media Query for tablet device */
 @media screen and (max-width: 600px) {
   .form {
+    width: 100%;
     min-width: auto;
   }
 }
