@@ -1,4 +1,4 @@
-import "./Button.css";
+import "../../../static/css/Button.css";
 
 function Button({ className = "", type = "button", content, ...rest}) {
     return (
