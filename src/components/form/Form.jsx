@@ -1,4 +1,4 @@
-import "./Form.css";
+import "../../static/css/Form.css";
 import { Input, Select, Button } from "./index";
 import appConstants from "../../appConstants";
 import { useCategories } from "./FormContext";

@@ -1,4 +1,4 @@
-import "./DeleteModal.css";
+import "../../../static/css/DeleteModal.css";
 import { Button } from "../index";
 import { useEffect, useState } from "react";
 import { useCategories } from "../FormContext";

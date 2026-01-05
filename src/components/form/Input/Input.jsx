@@ -1,4 +1,4 @@
-import "./Input.css"
+import "../../../static/css/Input.css"
 
 function Input({ type = "text", step = 1, placeholder = "", className = "", ...rest }) {
     return (

@@ -1,6 +1,6 @@
 import { useCategories } from "../FormContext";
 import { Input, Select, Button } from "../index";
-import "./Modal.css";
+import "../../../static/css/Modal.css";
 
 function Modal({
   deleteModal,
