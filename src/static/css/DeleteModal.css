@@ -6,8 +6,9 @@
     transform: translate(-50%, -50%);
     width: 27rem;
     height: 12rem;
-    background-color: #14161a;
-    border: 1px solid #047463;
+    background-color: var(--bulma-scheme-main);
+    border: 1px solid var(--bulma-primary);
+    border-radius: var(--card-radius);
     display: flex;
     flex-direction: column;
     justify-content: center;

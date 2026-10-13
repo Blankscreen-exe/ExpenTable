@@ -38,7 +38,7 @@ function CategoryRow({ category, getTitleWarning, onChange, onDelete }) {
       </div>
       <label className="category-row__priority">
         <span>Priority</span>
-        <div className="select is-primary">
+        <div className="select">
           <Select
             name={`priority-${category.id}`}
             value={category.priority || 1}

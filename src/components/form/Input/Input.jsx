@@ -6,7 +6,7 @@ function Input({ type = "text", step = 1, placeholder = "", className = "", ...r
             type={type} 
             step={step}
             placeholder={placeholder}
-            className={`input is-primary is-radiusless ${className}`}
+            className={`input ${className}`}
             {...rest}
         />
     )

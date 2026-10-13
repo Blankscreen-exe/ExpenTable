@@ -5,7 +5,7 @@
 
 .control.has-icons-left,
 .control.has-icons-right {
-  color: rgb(0, 209, 178);
+  color: var(--bulma-primary);
 }
 
 /* Task cards */
@@ -19,7 +19,7 @@
 .edit-card {
   padding: 0.75rem 1rem 1rem;
   border: 1px solid var(--bulma-border);
-  border-radius: 10px;
+  border-radius: var(--card-radius);
   background-color: var(--bulma-scheme-main-bis);
 }
 
@@ -93,7 +93,7 @@
 }
 
 .repeat-days__day.is-repeated {
-  background-color: rgba(0, 209, 178, 0.2);
+  background-color: var(--accent-soft);
   border-color: var(--bulma-primary);
   color: var(--bulma-primary);
 }
@@ -122,32 +122,26 @@
 .category-row {
   display: flex;
   align-items: flex-start;
-  flex-wrap: wrap;
   gap: 0.5rem;
   padding-block: 0.75rem;
   border-top: 1px solid var(--bulma-border);
 }
 
 .category-row__title {
-  flex: 1 1 12rem;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .category-row__priority {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   column-gap: 0.5rem;
   font-size: 0.85rem;
 }
 
-/* On phones the title takes the first line, priority and delete the second */
-@media screen and (max-width: 600px) {
-  .category-row__title {
-    flex-basis: 100%;
-  }
-
-  .category-row > .button {
-    margin-left: auto;
-  }
+.category-row > .button {
+  flex-shrink: 0;
 }
 
 /* Overlay behind the delete confirmation */

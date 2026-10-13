@@ -12,7 +12,7 @@
   row-gap: 0.15rem;
   padding: 0.5rem 0;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--bulma-radius);
   background: none;
   color: inherit;
   font-size: 0.8rem;
@@ -28,7 +28,7 @@
 }
 
 .day-strip__day.is-selected {
-  background-color: rgba(0, 209, 178, 0.15);
+  background-color: var(--accent-soft);
   border-color: var(--bulma-primary);
 }
 

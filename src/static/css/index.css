@@ -1,3 +1,35 @@
+/* Theme: Midnight Teal */
+html[data-theme="dark"] {
+  --bulma-scheme-h: 221;
+  --bulma-scheme-s: 14%;
+  --bulma-scheme-main-l: 9%;
+  --bulma-scheme-main-bis-l: 12%;
+  --bulma-scheme-main-ter-l: 15%;
+  --bulma-border-l: 22%;
+  --bulma-primary-h: 171deg;
+  --bulma-primary-s: 100%;
+  --bulma-primary-l: 41%;
+  --bulma-primary-invert-l: 8%;
+  --bulma-radius: 0.6rem;
+  --bulma-radius-small: 0.4rem;
+  --card-radius: 0.75rem;
+  --accent-soft: color-mix(in srgb, var(--bulma-primary) 16%, transparent);
+}
+
+.input:focus,
+.select select:focus {
+  border-color: var(--bulma-primary);
+}
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: var(--bulma-primary);
+}
+
+.input.is-danger {
+  border-color: var(--bulma-danger);
+  background-color: var(--bulma-scheme-main);
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -74,8 +106,9 @@ button:focus-visible {
 /* Cells */
 
 .it-is-today {
-  background-color: rgba(15, 116, 111, 0.932) !important;
-  color: rgb(21, 224, 214) !important;
+  background-color: var(--accent-soft) !important;
+  color: var(--bulma-primary) !important;
+  font-weight: 600;
 }
 
 /* Task Priority */
@@ -126,8 +159,8 @@ button:focus-visible {
 }
 
 .task-done {
-  background-color: rgba(51, 177, 173, 0.339) !important;
-  color: rgb(11, 154, 127) !important;
+  text-decoration: line-through;
+  opacity: 0.6;
 }
 
 /* Modifying the scroll-bar styles */
@@ -136,28 +169,28 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(0, 209, 178);
+  background-color: var(--bulma-primary);
   transition: background-color 1s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(0, 172, 146);
+  background-color: hsl(171, 100%, 34%);
 }
 .custom-task-checkbox {
   width: 80%;
   height: 20px;
   appearance: none;
-  background-color: #f0f0f0;
-  border: 2px solid #ccc;
-  border-radius: 4px;
+  background-color: var(--bulma-scheme-main-ter);
+  border: 2px solid var(--bulma-border);
+  border-radius: var(--bulma-radius-small);
   position: relative;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .custom-task-checkbox:checked {
-  background-color: #4caf50;
-  border-color: #4caf50;
+  background-color: var(--bulma-primary);
+  border-color: var(--bulma-primary);
   transform: scale(1.3);
 }
 
@@ -168,7 +201,7 @@ button:focus-visible {
   left: 45%;
   width: 4px;
   height: 9px;
-  border: solid white;
+  border: solid var(--bulma-scheme-main);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   opacity: 0;

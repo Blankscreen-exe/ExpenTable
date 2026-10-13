@@ -34,7 +34,7 @@
   min-height: 4rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--bulma-border);
-  border-radius: 10px;
+  border-radius: var(--card-radius);
   background-color: var(--bulma-scheme-main-bis);
   color: inherit;
   font: inherit;
@@ -86,8 +86,8 @@
 }
 
 .task-card.is-done {
-  background-color: rgba(51, 177, 173, 0.2);
-  border-color: rgba(0, 209, 178, 0.5);
+  background-color: color-mix(in srgb, var(--bulma-primary) 16%, var(--bulma-scheme-main-bis));
+  border-color: color-mix(in srgb, var(--bulma-primary) 50%, transparent);
 }
 
 .task-card.is-done .task-card__check {
@@ -100,6 +100,7 @@
 }
 
 .today-summary__edit {
+  color: inherit;
   margin-left: 0.5rem;
   font-size: 0.9rem;
   opacity: 0.8;

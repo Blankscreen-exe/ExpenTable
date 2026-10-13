@@ -107,7 +107,7 @@ const FormContainer = () => {
           </h2>
           <Link
             to={appConstants.routes.categories}
-            className="button is-primary is-outlined is-radiusless"
+            className="button is-primary is-outlined"
           >
             Create a new category
           </Link>

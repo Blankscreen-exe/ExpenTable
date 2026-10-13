@@ -1,7 +1,7 @@
 function Select({className = "", options, placeholder, ...rest}) {
     return (
         <select 
-            className={`is-radiusless ${className}`}
+            className={className}
             {...rest}>
                 {placeholder && (
                     <option value="" disabled hidden>
