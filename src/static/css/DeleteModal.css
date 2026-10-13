@@ -1,9 +1,9 @@
 .delete-modal-card {
-    position: absolute;
+    position: fixed;
     z-index: 100;
-    top: 1rem;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: 27rem;
     height: 12rem;
     background-color: #14161a;

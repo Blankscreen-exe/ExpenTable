@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { toTitleCase, formatTime, combineClassNames } from "../../helpers";
 import appConstants from "../../appConstants";
+import DayStrip from "../common/DayStrip";
 
 const hasTitle = (chore) => chore?.title && chore.title.trim() !== "";
 
@@ -11,6 +12,7 @@ function TodayView({ categories, choreList, taskCompleted, today, onTaskDoneChan
   const [pickedDay, setPickedDay] = useState(null);
   const day = pickedDay ?? today;
   const isItToday = day === today;
+  const editRoute = `${appConstants.routes.form}?day=${day}`;
 
   const tasks = choreList[day]
     .map((chore, ind) => chore && { ...chore, category: categories[ind].title })
@@ -25,27 +27,17 @@ function TodayView({ categories, choreList, taskCompleted, today, onTaskDoneChan
 
   return (
     <div className="today-view px-4 pb-4">
-      <div className="day-strip" role="tablist" aria-label="Day of the week">
-        {appConstants.days.map((weekDay) => (
-          <button
-            key={weekDay}
-            type="button"
-            role="tab"
-            aria-selected={weekDay === day}
-            onClick={() => setPickedDay(weekDay === today ? null : weekDay)}
-            className={combineClassNames(
-              "day-strip__day",
-              weekDay === day ? "is-selected" : "",
-              weekDay === today ? "is-today" : ""
-            )}
-          >
-            <span>{toTitleCase(weekDay)}</span>
-            <span className="day-strip__count">
-              {choreList[weekDay].filter(hasTitle).length}
-            </span>
-          </button>
-        ))}
-      </div>
+      <DayStrip
+        selectedDay={day}
+        today={today}
+        counts={Object.fromEntries(
+          appConstants.days.map((weekDay) => [
+            weekDay,
+            choreList[weekDay].filter(hasTitle).length,
+          ])
+        )}
+        onSelect={(weekDay) => setPickedDay(weekDay === today ? null : weekDay)}
+      />
 
       <div className="today-summary">
         <div className="is-flex is-justify-content-space-between is-align-items-baseline">
@@ -53,6 +45,13 @@ function TodayView({ categories, choreList, taskCompleted, today, onTaskDoneChan
             {isItToday
               ? "Today"
               : appConstants.fullDays[appConstants.days.indexOf(day)]}
+            <Link
+              to={editRoute}
+              className="today-summary__edit"
+              aria-label="Edit this day"
+            >
+              <i className="fa-regular fa-pen-to-square"></i>
+            </Link>
           </h2>
           {tasks.length > 0 && (
             <span className="today-summary__meta">
@@ -118,7 +117,7 @@ function TodayView({ categories, choreList, taskCompleted, today, onTaskDoneChan
           <p className="mb-2">
             Nothing planned for {isItToday ? "today" : "this day"}.
           </p>
-          <Link to={appConstants.routes.form} className="has-text-primary">
+          <Link to={editRoute} className="has-text-primary">
             Edit your week
           </Link>
         </div>

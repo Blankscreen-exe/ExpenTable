@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "../../static/css/Home.css";
-import { getTableStats, getWeekStart } from "../../helpers";
+import { getTableStats, getWeekStart, sortByPriority } from "../../helpers";
 import appConstants from "../../appConstants";
 import {
   useLocalStorage,
@@ -16,7 +16,8 @@ import TodayView from "./TodayView";
 import { useCategories } from "../form/FormContext";
 
 function Home() {
-  const { categories: data } = useCategories();
+  const { categories } = useCategories();
+  const data = sortByPriority(categories);
   const { itemNames, choreList } = getTableStats(data);
   const [taskCompleted, setTaskCompleted] = useLocalStorage(
     appConstants.localStorageKey,

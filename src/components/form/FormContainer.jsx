@@ -1,135 +1,111 @@
 import { useState } from "react";
-import { Form, ModalContainer } from "./index";
+import { useSearchParams } from "react-router-dom";
+import "../../static/css/Form.css";
+import { DayTaskCard, CategoryList } from "./index";
+import DayStrip from "../common/DayStrip";
 import { useCategories } from "./FormContext";
+import { useTodayDay } from "../../customHooks";
+import { sortByPriority, isSameTask } from "../../helpers";
+import appConstants from "../../appConstants";
+
+const hasTitle = (task) => task?.title && task.title.trim() !== "";
 
 const FormContainer = () => {
   const { categories, setCategories } = useCategories();
-  const [modal, setModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(
-    categories[0] || null
-  );
-  const [sliderIndex, setSliderIndex] = useState(0);
-  const [sliderLoaded, setSliderLoaded] = useState(true);
+  const today = useTodayDay();
+  const [searchParams] = useSearchParams();
+  // Home links here with the day it was showing, e.g. /edit?day=sat
+  const [day, setDay] = useState(() => {
+    const requestedDay = searchParams.get("day");
+    return appConstants.days.includes(requestedDay) ? requestedDay : today;
+  });
 
-  // Change category when user selects a different one in the dropdown
-  const handleSelectChange = (e) => {
-    const categorySelected = categories.find(
-      (category) => category.title === e.target.value
-    );
-    setSelectedCategory(categorySelected);
-  };
-
-  // Change the priority of the category
-  const handlePriorityChange = (e) => {
-    const { value } = e.target;
-    console.log(value);
-
+  const updateDays = (categoryId, getNewDays) => {
     setCategories((prevValue) =>
       prevValue.map((category) =>
-        selectedCategory.id === category.id
-          ? { ...category, priority: Number(value) }
+        category.id === categoryId
+          ? { ...category, days: getNewDays(category.days || {}) }
           : category
       )
     );
-
-    // This is just for rendering purpose, because we are using this in the Form component to render the priority
-    setSelectedCategory((prevValue) => ({
-      ...prevValue,
-      priority: Number(value),
-    }));
   };
 
-  // Change days state when any input triggers the onChange
-  const handleDaysInputChange = (e) => {
-    const { name, value } = e.target;
-    const day = name.slice(0, 3);
-    const property = name.slice(4, name.length);
-    const newDays = {
-      ...selectedCategory.days,
-      [day]: {
-        ...(selectedCategory.days[day] || {}),
-        [property]: property === "title" ? value : parseFloat(value),
-      },
-    };
+  // Change the title or the allotted time of a category's task on a given day
+  const handleTaskChange = (categoryId, taskDay, property, value) => {
+    updateDays(categoryId, (days) => {
+      const task = { ...(days[taskDay] || {}), [property]: value };
+      const newDays = { ...days, [taskDay]: task };
 
-    setCategories((prevValue) =>
-      prevValue.map((category) =>
-        selectedCategory.id === category.id
-          ? { ...category, days: newDays }
-          : category
+      // Nothing left in it, so the day goes back to being unplanned
+      if (!task.title && !task.allottedTime) delete newDays[taskDay];
+
+      return newDays;
+    });
+  };
+
+  // Put the task of `fromDay` on `toDay`, or take it off if it is already there
+  const handleRepeatToggle = (categoryId, fromDay, toDay) => {
+    updateDays(categoryId, (days) => {
+      const newDays = { ...days };
+
+      if (isSameTask(days[toDay], days[fromDay])) {
+        delete newDays[toDay];
+      } else {
+        newDays[toDay] = { ...days[fromDay] };
+      }
+
+      return newDays;
+    });
+  };
+
+  const handleRepeatEveryDay = (categoryId, fromDay) => {
+    updateDays(categoryId, (days) =>
+      Object.fromEntries(
+        appConstants.days.map((weekDay) => [weekDay, { ...days[fromDay] }])
       )
     );
-
-    // This is just for rendering purpose, because we are using this in the Form component to render the input value
-    setSelectedCategory((prevValue) => ({
-      ...prevValue,
-      days: newDays,
-    }));
-  };
-
-  // Update the categories state when the modal closes
-  const closeModal = (modifiedCategoryId) => {
-    if (modifiedCategoryId) {
-      const category = categories.find(
-        (category) => category.id === modifiedCategoryId
-      );
-
-      setSelectedCategory(category);
-    } else {
-      setSelectedCategory(categories[0] ?? null);
-    }
-
-    setModal(false);
-  };
-
-  const handleDaySelection = (e) => {
-    const index = parseInt(e.target.dataset.index, 10);
-    setSliderLoaded(false);
-
-    // Delay to allow the transition effect
-    setTimeout(() => {
-      setSliderIndex(index);
-      setSliderLoaded(true);
-    }, 300);
-  }
-
-  const handleSliderChange = (next = true) => {
-    setSliderLoaded(false);
-
-    // Delay to allow the transition effect
-    setTimeout(() => {
-      setSliderIndex((prevIndex) => {
-        const newIndex = next ? prevIndex + 1 : prevIndex - 1;
-        return newIndex < 0 ? 6 : newIndex % 7; // 7 because there exists 7 days
-      });
-
-      setSliderLoaded(true);
-    }, 300);
-
   };
 
   return (
-    <section style={{ position: "relative" }}>
-      <div className={`modal-overlay ${modal ? "open" : ""}`} />
-      <Form
-        {...{
-          handleDaySelection,
-          handleSliderChange,
-          sliderIndex,
-          sliderLoaded,
-          selectedCategory,
-          handleSelectChange,
-          handlePriorityChange,
-          handleDaysInputChange,
-        }}
-        openModal={() => setModal(true)}
-      />
-      {modal && (
-        <ModalContainer
-          currentCategoryId={selectedCategory?.id || null}
-          closeModal={closeModal}
-        />
+    <section className="edit-page px-4 pb-4">
+      {categories.length > 0 ? (
+        <>
+          <DayStrip
+            selectedDay={day}
+            today={today}
+            counts={Object.fromEntries(
+              appConstants.days.map((weekDay) => [
+                weekDay,
+                categories.filter((category) =>
+                  hasTitle(category.days?.[weekDay])
+                ).length,
+              ])
+            )}
+            onSelect={setDay}
+          />
+          <h2 className="subtitle mb-3">
+            {appConstants.fullDays[appConstants.days.indexOf(day)]}
+          </h2>
+          <ul className="edit-task-list">
+            {sortByPriority(categories).map((category) => (
+              <li key={category.id}>
+                <DayTaskCard
+                  category={category}
+                  day={day}
+                  onTaskChange={handleTaskChange}
+                  onRepeatToggle={handleRepeatToggle}
+                  onRepeatEveryDay={handleRepeatEveryDay}
+                />
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <h2 className="subtitle has-text-centered py-5">
+          You still have no categories created.
+        </h2>
       )}
+      <CategoryList />
     </section>
   );
 };

@@ -103,3 +103,17 @@ export function checkDuplication(arr, checkProperty) {
         return false;
     });
 };
+
+export function sortByPriority(categories) {
+    // sort() is stable, so categories with the same priority keep their order
+    return [...categories].sort((a, b) => (a.priority || 1) - (b.priority || 1));
+}
+
+export function isSameTask(task, otherTask) {
+    if (!task || !otherTask) return false;
+
+    return (
+        task.title === otherTask.title &&
+        (task.allottedTime || 0) === (otherTask.allottedTime || 0)
+    );
+}
