@@ -7,7 +7,7 @@ function Header() {
     <div className="header p-5">
         <div className="content-wrapper">
         <h1 className="title is-1 has-text-centered">ExpenTable <sub>{pack.version}</sub></h1>
-        <p className="has-text-centered">
+        <p className="has-text-centered header-description">
             An expendable time table. Manage your daily schedule with this
             feature-rich minimalistic timetable app. It storess all data
             locally so nothing ever leaves your device.

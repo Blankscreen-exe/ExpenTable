@@ -16,5 +16,8 @@ export default {
   ],
   localStorageKey: "expentable_table_data-123456789",
   categoriesKey: "categories",
+  weekStartKey: "expentable_week_start",
+  homeViewKey: "expentable_home_view",
+  mobileBreakpoint: 768,
   pomodoroMultiplier: 30,
 };

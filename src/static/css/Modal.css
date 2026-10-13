@@ -10,6 +10,7 @@
 
 .modal-overlay.open {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .form-modal-card {

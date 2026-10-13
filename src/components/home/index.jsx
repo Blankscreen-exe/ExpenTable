@@ -1,155 +1,110 @@
-import React, { useState } from "react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import tableData from "../../data/table.json";
-import pack from "../../../package.json";
-import {
-  toTitleCase,
-  getTableStats,
-  getTodayDay,
-  formatTime,
-} from "../../helpers";
+import "../../static/css/Home.css";
+import { getTableStats, getWeekStart } from "../../helpers";
 import appConstants from "../../appConstants";
-import { useLocalStorage } from "../../customHooks";
+import {
+  useLocalStorage,
+  useTodayDay,
+  useWindowSize,
+} from "../../customHooks";
 
 // Components
-import HeaderCell from "./cells/HeaderCell";
-import DayCell from "./cells/DayCell";
-import TaskCountCell from "./cells/TaskCountCell";
-import TaskCell from "./cells/TaskCell";
-import AllottedTimeCell from "./cells/AllottedTimeCell";
+import WeekTable from "./WeekTable";
+import TodayView from "./TodayView";
 import { useCategories } from "../form/FormContext";
 
 function Home() {
-  const [taskCategory, setTaskCategory] = useState([]);
   const { categories: data } = useCategories();
-  const { itemNames, itemCount, choreList } = getTableStats(data);
+  const { itemNames, choreList } = getTableStats(data);
   const [taskCompleted, setTaskCompleted] = useLocalStorage(
     appConstants.localStorageKey,
     {}
   );
+  const today = useTodayDay();
+  const weekStart = getWeekStart();
+  const [savedWeekStart, setSavedWeekStart] = useLocalStorage(
+    appConstants.weekStartKey,
+    weekStart
+  );
+  const [savedView, setSavedView] = useLocalStorage(
+    appConstants.homeViewKey,
+    null
+  );
+  const { width } = useWindowSize();
 
-  const handleTaskDoneChange = (event, task_id) => {
+  // Phones open on today's tasks, bigger screens on the whole week
+  const view =
+    savedView ?? (width <= appConstants.mobileBreakpoint ? "today" : "week");
+
+  // A new week starts with a blank slate
+  useEffect(() => {
+    if (savedWeekStart !== weekStart) {
+      setTaskCompleted({});
+      setSavedWeekStart(weekStart);
+    }
+  }, [savedWeekStart, weekStart, setTaskCompleted, setSavedWeekStart]);
+
+  const handleTaskDoneChange = (task_id, isDone) => {
     setTaskCompleted((prevState) => {
       return {
         ...prevState,
-        [task_id]: event.target.checked,
+        [task_id]: isDone,
       };
     });
   };
 
-  return (
-    <div className="px-4 py-4 mx-3 columns is-desktop is-centered">
-      <div className="table-container">
-        {data.length > 0 ? (
-          <table className="table is-striped is-bordered ">
-            <thead>
-              <tr>
-                <HeaderCell value={"Days"} />
-                <HeaderCell value={"Task Count"} />
-                {itemNames.map((item, ind) => {
-                  return (
-                    <HeaderCell key={ind} value={toTitleCase(item.title)} />
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {appConstants.days.map((day, ind) => (
-                <tr key={ind}>
-                  <DayCell value={toTitleCase(day)} />
-                  <TaskCountCell
-                    value={
-                      choreList[day].filter(
-                        (chore) => chore?.title && chore.title.trim() !== ""
-                      ).length
-                    }
-                  />
-                  {choreList[day].map((chore, ind) => (
-                    <TaskCell
-                      key={ind}
-                      day={day}
-                      value={chore?.title}
-                      isDone={
-                        chore?.task_id && taskCompleted[chore.task_id]
-                          ? true
-                          : false
-                      }
-                    />
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td></td>
-                  <td
-                    className='has-text-centered'
-                  >
-                  <div className=" has-background-danger  has-text-black has-text-weight-bold"
-                    style={{
-                      borderRadius: '5px',
-                      padding: '0.125rem',
-                    }}>
-                    {formatTime(
-                      (choreList[getTodayDay()] || []).reduce(
-                        (acc, curr) =>
-                          acc +
-                          (curr?.allottedTime
-                            ? curr.allottedTime * appConstants.pomodoroMultiplier
-                            : 0),
-                        0
-                      )
-                    )}
-                  </div>
-                  </td>
-                {choreList[getTodayDay()].map((item, ind) => (
-                  <AllottedTimeCell
-                    key={ind}
-                    value={
-                      item
-                        ? item.allottedTime &&
-                          formatTime(
-                            item.allottedTime * appConstants.pomodoroMultiplier
-                          )
-                        : "N/A"
-                    }
-                  />
-                ))}
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                {choreList[getTodayDay()].map((item, ind) => (
-                  <AllottedTimeCell
-                    key={ind}
-                    value={
-                      item ? (
-                        <input
-                          type="checkbox"
-                          className="custom-task-checkbox"
-                          onChange={(e) =>
-                            handleTaskDoneChange(e, item.task_id)
-                          }
-                          checked={taskCompleted[item.task_id] ? true : false}
-                        />
-                      ) : (
-                        ""
-                      )
-                    }
-                  />
-                ))}
-              </tr>
-            </tfoot>
-          </table>
-        ) : (
-          <div className="section is-flex is-flex-direction-column is-align-items-center">
-            <h2 className="subtitle">No categories has been added yet!</h2>
-            <a href="/edit" className="has-text-primary">
-              Click here to add a new category
-            </a>
-          </div>
-        )}
+  if (data.length === 0) {
+    return (
+      <div className="section is-flex is-flex-direction-column is-align-items-center">
+        <h2 className="subtitle">No categories has been added yet!</h2>
+        <Link to={appConstants.routes.form} className="has-text-primary">
+          Click here to add a new category
+        </Link>
       </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="buttons has-addons is-centered view-switch">
+        <button
+          type="button"
+          onClick={() => setSavedView("today")}
+          className={`button is-small ${
+            view === "today" ? "is-primary is-selected" : ""
+          }`}
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          onClick={() => setSavedView("week")}
+          className={`button is-small ${
+            view === "week" ? "is-primary is-selected" : ""
+          }`}
+        >
+          Week
+        </button>
+      </div>
+      {view === "today" ? (
+        <TodayView
+          categories={data}
+          choreList={choreList}
+          taskCompleted={taskCompleted}
+          today={today}
+          onTaskDoneChange={handleTaskDoneChange}
+        />
+      ) : (
+        <WeekTable
+          itemNames={itemNames}
+          choreList={choreList}
+          taskCompleted={taskCompleted}
+          today={today}
+          onTaskDoneChange={handleTaskDoneChange}
+        />
+      )}
     </div>
   );
 }

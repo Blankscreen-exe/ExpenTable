@@ -70,6 +70,13 @@ export function getTodayDay() {
     return days[new Date().getDay()];
 }
 
+export function getWeekStart() {
+    // Date of this week's monday, used to tell when a new week has started
+    const date = new Date();
+    date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
 export function combineClassNames(...classNames) {
     // Filter out any falsy values (like empty strings, undefined, null) and join them with a single space
     return classNames.filter(Boolean).join(' ');
