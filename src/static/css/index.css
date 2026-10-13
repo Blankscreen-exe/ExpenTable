@@ -201,14 +201,16 @@ button:focus-visible {
   left: 45%;
   width: 4px;
   height: 9px;
-  border: solid var(--bulma-scheme-main);
+  /* Not done yet: a dull gray tick */
+  border: solid var(--bulma-text-weak);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
 }
 
 .custom-task-checkbox:checked::after {
+  border-color: var(--bulma-scheme-main);
   opacity: 1;
 }
 
