@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getTodayDay } from "./helpers";
 
 export function useLocalStorage(key, initialValue) {
   // Get the stored value from localStorage or use the initial value
@@ -45,4 +46,23 @@ export function useWindowSize() {
   }, []);
 
   return size;
+}
+
+export function useTodayDay() {
+  const [today, setToday] = useState(getTodayDay);
+
+  // The app can stay open (or installed in the background) past midnight
+  useEffect(() => {
+    const refresh = () => setToday(getTodayDay());
+    const interval = setInterval(refresh, 60 * 1000);
+
+    document.addEventListener('visibilitychange', refresh);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, []);
+
+  return today;
 }

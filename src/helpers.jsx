@@ -70,6 +70,13 @@ export function getTodayDay() {
     return days[new Date().getDay()];
 }
 
+export function getWeekStart() {
+    // Date of this week's monday, used to tell when a new week has started
+    const date = new Date();
+    date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
 export function combineClassNames(...classNames) {
     // Filter out any falsy values (like empty strings, undefined, null) and join them with a single space
     return classNames.filter(Boolean).join(' ');
@@ -96,3 +103,17 @@ export function checkDuplication(arr, checkProperty) {
         return false;
     });
 };
+
+export function sortByPriority(categories) {
+    // sort() is stable, so categories with the same priority keep their order
+    return [...categories].sort((a, b) => (a.priority || 1) - (b.priority || 1));
+}
+
+export function isSameTask(task, otherTask) {
+    if (!task || !otherTask) return false;
+
+    return (
+        task.title === otherTask.title &&
+        (task.allottedTime || 0) === (otherTask.allottedTime || 0)
+    );
+}

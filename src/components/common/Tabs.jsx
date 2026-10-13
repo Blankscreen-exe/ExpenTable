@@ -2,26 +2,31 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import appConstants from "../../appConstants";
-import { combineClassNames } from "../../helpers";
+
+const tabs = [
+  { route: appConstants.routes.home, label: "Home", icon: "fa-solid fa-calendar-day" },
+  { route: appConstants.routes.form, label: "Edit Tasks", icon: "fa-regular fa-pen-to-square" },
+  { route: appConstants.routes.categories, label: "Categories", icon: "fa-solid fa-tags" },
+  { route: appConstants.routes.about, label: "About", icon: "fa-solid fa-circle-info" },
+];
 
 function Tabs() {
     const currentPath = useLocation().pathname;
   return (
-    <div className="tabs-container">
+    <nav className="tabs-container">
       <div className="tabs is-centered">
         <ul>
-          <li className={currentPath==appConstants.routes.home ? "is-active is-active-tab" : ""}>
-            <NavLink to={appConstants.routes.home} >Home</NavLink>
-          </li>
-          <li className={currentPath==appConstants.routes.form ? "is-active is-active-tab" : ""}>
-            <NavLink to={appConstants.routes.form} >Edit Tasks</NavLink>
-          </li>
-          <li className={currentPath==appConstants.routes.about ? "is-active is-active-tab" : ""}>
-            <NavLink to={appConstants.routes.about} >About</NavLink>
-          </li>
+          {tabs.map((tab) => (
+            <li key={tab.route} className={currentPath==tab.route ? "is-active is-active-tab" : ""}>
+              <NavLink to={tab.route} >
+                <span className="icon is-small"><i className={tab.icon}></i></span>
+                <span>{tab.label}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
-    </div>
+    </nav>
   );
 }
 
