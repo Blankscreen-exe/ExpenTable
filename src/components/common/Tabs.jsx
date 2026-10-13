@@ -6,6 +6,7 @@ import appConstants from "../../appConstants";
 const tabs = [
   { route: appConstants.routes.home, label: "Home", icon: "fa-solid fa-calendar-day" },
   { route: appConstants.routes.form, label: "Edit Tasks", icon: "fa-regular fa-pen-to-square" },
+  { route: appConstants.routes.categories, label: "Categories", icon: "fa-solid fa-tags" },
   { route: appConstants.routes.about, label: "About", icon: "fa-solid fa-circle-info" },
 ];
 

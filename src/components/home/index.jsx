@@ -60,7 +60,7 @@ function Home() {
     return (
       <div className="section is-flex is-flex-direction-column is-align-items-center">
         <h2 className="subtitle">No categories has been added yet!</h2>
-        <Link to={appConstants.routes.form} className="has-text-primary">
+        <Link to={appConstants.routes.categories} className="has-text-primary">
           Click here to add a new category
         </Link>
       </div>

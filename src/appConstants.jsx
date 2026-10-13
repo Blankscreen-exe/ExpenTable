@@ -3,6 +3,7 @@ export default {
     home: "/",
     about: "/about",
     form: "/edit",
+    categories: "/categories",
   },
   days: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
   fullDays: [

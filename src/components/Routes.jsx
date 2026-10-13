@@ -8,6 +8,7 @@ import appConstants from "../appConstants";
 const Home = lazy(() => import("./home"));
 const About = lazy(() => import("./about"));
 const Form = lazy(() => import("./form/FormContainer"));
+const Categories = lazy(() => import("./categories"));
 const Error404 = lazy(() => import("./common/Error404"));
 
 function RoutesList() {
@@ -17,6 +18,7 @@ function RoutesList() {
         <Route path={appConstants.routes.home} element={<Home />} />
         <Route path={appConstants.routes.about} element={<About />} />
         <Route path={appConstants.routes.form} element={<Form />} />
+        <Route path={appConstants.routes.categories} element={<Categories />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </Suspense>

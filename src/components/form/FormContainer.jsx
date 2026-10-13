@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "../../static/css/Form.css";
-import { DayTaskCard, CategoryList } from "./index";
+import { DayTaskCard } from "./index";
 import DayStrip from "../common/DayStrip";
 import { useCategories } from "./FormContext";
 import { useTodayDay } from "../../customHooks";
@@ -101,11 +101,18 @@ const FormContainer = () => {
           </ul>
         </>
       ) : (
-        <h2 className="subtitle has-text-centered py-5">
-          You still have no categories created.
-        </h2>
+        <div className="is-flex is-flex-direction-column is-align-items-center is-row-gap-2 py-5">
+          <h2 className="subtitle has-text-centered">
+            You still have no categories created.
+          </h2>
+          <Link
+            to={appConstants.routes.categories}
+            className="button is-primary is-outlined is-radiusless"
+          >
+            Create a new category
+          </Link>
+        </div>
       )}
-      <CategoryList />
     </section>
   );
 };
